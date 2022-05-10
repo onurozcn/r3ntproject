@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app:
+    image: r3ntproject
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # - MONGODB_USERNAME=root
+      # - MONGODB_PASSWORD=V8UjZHRZrGL155vP
+      # - MONGODB_DATABASE=coyotiv
+      - MONGODB_CONNECTION_STRING=mongodb://mongo/r3ntproject
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./src:/app/src
+
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017
+
+
