@@ -12,7 +12,7 @@ router.get('/', async function (req, res, next) {
   res.send(users)
 })
 
-router.get('/:id', async function (req, res) {
+router.get('/:id/json', async function (req, res) {
   const user = await User.findById(req.params.id)
 
   if (!user) {

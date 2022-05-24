@@ -4,15 +4,17 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
-const mongoose = require('mongoose')
-const cors = require('cors')
+// const mongoose = require('mongoose')
+// const cors = require('cors')
+
 const User = require('./models/user')
 
-require('./database-connection')
+const mongooseConnection = require('./database-connection')
+const socketService = require('./socket-service')
 
-const clientPromise = mongoose.connection.asPromise().then(connection => connection.getClient())
+// const clientPromise = mongoose.connection.then(connection => connection.getClient())
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
@@ -22,12 +24,12 @@ const accountRouter = require('./routes/account')
 
 const app = express()
 
-app.use(
-  cors({
-    origin: true,
-    creadentials: true,
-  })
-)
+// app.use(
+//   cors({
+//     origin: true,
+//     creadentials: true,
+//   })
+// )
 
 if (app.get('env') == 'development') {
   /* eslint-disable-next-line */
@@ -37,6 +39,8 @@ if (app.get('env') == 'development') {
     .createServer({ extraExts: ['pug'] })
     .watch([`${__dirname}/public`, `${__dirname}/views`])
 }
+
+app.set('io', socketService)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -52,7 +56,7 @@ app.use(
     secret: ['thisisnotasupersecuresecretsecret', 'thisisanothersupernotsosecretsecret'],
     saveUninitialized: false,
     resave: false,
-    store: MongoStore.create({ clientPromise, stringify: false }),
+    store: new MongoStore({ mongooseConnection, stringify: false }),
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',
@@ -61,12 +65,14 @@ app.use(
     },
   })
 )
+app.use(passport.initialize())
 app.use(passport.session())
 
 passport.use(User.createStrategy())
 
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api', (req, res, next) => {
@@ -81,9 +87,6 @@ app.use('/api/account', accountRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/companies', companyRouter)
-
-// eslint-disable-next-line no-console
-console.log('Hellooooooooooooo')
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

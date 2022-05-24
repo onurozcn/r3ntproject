@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
+const passportLocalMongoose = require('passport-local-mongoose')
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -17,11 +18,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     trim: true
   },
-  password: {
-    type: String,
-    trim: true,
-    required: true
-  }
+  // password: {
+  //   type: String,
+  //   trim: true,
+  //   required: true
+  // }
 })
   
 
