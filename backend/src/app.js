@@ -4,17 +4,17 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')
 const passport = require('passport')
-// const mongoose = require('mongoose')
-// const cors = require('cors')
-
+const mongoose = require('mongoose')
+const cors = require('cors')
 const User = require('./models/user')
 
-const mongooseConnection = require('./database-connection')
-const socketService = require('./socket-service')
+require('./database-connection')
 
-// const clientPromise = mongoose.connection.then(connection => connection.getClient())
+const clientPromise = mongoose.connection.then(connection => connection.getClient())
+
+const socketService = require('./socket-service')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
@@ -24,12 +24,12 @@ const accountRouter = require('./routes/account')
 
 const app = express()
 
-// app.use(
-//   cors({
-//     origin: true,
-//     creadentials: true,
-//   })
-// )
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+)
 
 if (app.get('env') == 'development') {
   /* eslint-disable-next-line */
@@ -56,7 +56,7 @@ app.use(
     secret: ['thisisnotasupersecuresecretsecret', 'thisisanothersupernotsosecretsecret'],
     saveUninitialized: false,
     resave: false,
-    store: new MongoStore({ mongooseConnection, stringify: false }),
+    store: MongoStore.create({ clientPromise, stringify: false }),
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',
@@ -65,6 +65,7 @@ app.use(
     },
   })
 )
+
 app.use(passport.initialize())
 app.use(passport.session())
 

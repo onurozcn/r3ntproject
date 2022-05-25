@@ -3,8 +3,8 @@ const express = require('express')
 const router = express.Router()
 
 const User = require('../models/user')
-//const Product = require('../models/product')
-//const Company = require('../models/company')
+// const Product = require('../models/product')
+// const Company = require('../models/company')
 
 router.get('/', async function (req, res, next) {
   const users = await User.find({})
