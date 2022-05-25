@@ -32,7 +32,7 @@ export default {
 
 <template lang="pug">
   .home
-    h1 Rental Project {{ user.name }}
+    h1(v-if="user") Rental Project {{ user.name }}
     p The time is: {{ time }}
     h2 Users
     div(v-for="user in users")
