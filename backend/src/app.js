@@ -40,6 +40,8 @@ if (app.get('env') == 'development') {
     .watch([`${__dirname}/public`, `${__dirname}/views`])
 }
 
+app.set('trust proxy', 1)
+
 app.set('io', socketService)
 
 // view engine setup
@@ -60,8 +62,10 @@ app.use(
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',
-      sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'strict',
-      secure: process.env.NODE_ENV == 'production',
+      sameSite: 'none',
+      secure: true,
+      // sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'strict',
+      // secure: process.env.NODE_ENV == 'production',
     },
   })
 )

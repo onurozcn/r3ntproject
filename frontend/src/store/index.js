@@ -6,9 +6,12 @@ import axios from 'axios'
 
 import io from 'socket.io-client'
 
+axios.default.baseURL = process.env.VUE_APP_BASE_URL
+axios.default.withCredentials = true
+
 Vue.use(Vuex)
 
-const socket = io()
+const socket = io(process.env.VUE_APP_BASE_URL)
 
 // socket.on('hello world!', () => {
 //   console.log('we received message from the websocket server!')
