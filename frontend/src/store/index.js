@@ -1,33 +1,15 @@
-/* eslint-disable no-useless-catch */
-/* eslint-disable no-unused-vars */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
 import io from 'socket.io-client'
 
-axios.default.baseURL = process.env.VUE_APP_BASE_URL
-axios.default.withCredentials = true
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
+axios.defaults.withCredentials = true
 
 Vue.use(Vuex)
 
 const socket = io(process.env.VUE_APP_BASE_URL)
-
-// socket.on('hello world!', () => {
-//   console.log('we received message from the websocket server!')
-// })
-
-// setInterval(() => {
-//   const number = Math.random()
-//   console.log(`i'm sending out a request`, number)
-//   socket.emit('new message', number, res => {
-//     console.log('this is a response', res)
-//   })
-
-//   socket.emit('another api', res => {
-//     console.log(res)
-//   })
-// }, 3000)
 
 const mutations = {
   INCREMENT_COUNT: 'increment count',
@@ -67,7 +49,7 @@ const store = new Vuex.Store({
       commit(mutations.INCREMENT_COUNT)
     },
     async fetchUser(store, id) {
-      const userRequest = await axios.get(`/api/users/${id}`)
+      const userRequest = await axios.get(`/api/users/${id}/json`)
       return userRequest.data
     },
     async fetchUsers() {
@@ -79,6 +61,7 @@ const store = new Vuex.Store({
       commit(mutations.SET_USER, user.data || null)
     },
     async login({ commit }, credentials) {
+      // eslint-disable-next-line no-useless-catch
       try {
         const user = await axios.post('/api/account/session', credentials)
         commit(mutations.SET_USER, user.data)
@@ -94,11 +77,12 @@ const store = new Vuex.Store({
       commit(mutations.SET_USER, null)
     },
     async goLive({ state, commit }) {
-      socket.emit('go live', state.user._id, status => {
+      socket.emit('go live', state.user._id, () => {
         commit(mutations.SET_LIVE_STREAM, state.user._id)
       })
     },
-    async addLiveStream({ state, commit }, stream) {
+
+    async addLiveStream({ commit }, stream) {
       commit(mutations.ADD_LIVE_STREAM, stream)
     },
     async sendMessageToLiveStream({ state, commit }, body) {
@@ -109,8 +93,7 @@ const store = new Vuex.Store({
       commit(mutations.ADD_MESSAGE_TO_LIVE_STREAM, message)
       socket.emit('new message', state.currentLiveStream, message)
     },
-    // eslint-disable-next-line no-unused-vars
-    async joinStream({ state, commit }, stream) {
+    async joinStream({ commit }, stream) {
       socket.emit('join stream', stream)
       commit(mutations.SET_LIVE_STREAM, stream)
     },

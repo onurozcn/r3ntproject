@@ -1,4 +1,4 @@
-FROM node:alpine AS BUILDER
+FROM node:18.1.0-alpine3.14 AS BUILDER
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ ADD public ./public
 
 RUN npm run build
 
-FROM node:alpine
+FROM node:18.1.0-alpine3.14
 
 WORKDIR /app
 

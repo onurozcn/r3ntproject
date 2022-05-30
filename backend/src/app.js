@@ -8,13 +8,13 @@ const MongoStore = require('connect-mongo')
 const passport = require('passport')
 const mongoose = require('mongoose')
 const cors = require('cors')
+
 const User = require('./models/user')
 
 require('./database-connection')
+const socketService = require('./socket-service')
 
 const clientPromise = mongoose.connection.then(connection => connection.getClient())
-
-const socketService = require('./socket-service')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
@@ -58,14 +58,12 @@ app.use(
     secret: ['thisisnotasupersecuresecretsecret', 'thisisanothersupernotsosecretsecret'],
     saveUninitialized: false,
     resave: false,
-    store: MongoStore.create({ clientPromise, stringify: false }),
+    store: MongoStore.create({ clientPromise, stringify: false}),   
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',
-      sameSite: 'none',
-      secure: true,
-      // sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'strict',
-      // secure: process.env.NODE_ENV == 'production',
+      sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'strict',
+      secure: process.env.NODE_ENV == 'production',
     },
   })
 )
@@ -87,7 +85,7 @@ app.use('/api', (req, res, next) => {
   next()
 })
 
-app.use('/api', indexRouter)
+app.use('/api/', indexRouter)
 app.use('/api/account', accountRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/products', productsRouter)
