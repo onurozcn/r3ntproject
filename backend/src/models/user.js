@@ -26,7 +26,22 @@ const userSchema = new mongoose.Schema({
 })
   
 
-class User {}
+class User {
+
+  // loan(product) {
+      
+  // }
+
+  // previousLoans() {
+  // list the previous loans
+  // }
+
+  // makeAreview(product){
+  // }
+
+
+
+}
  
 userSchema.loadClass(User)
 userSchema.plugin(autopopulate)

@@ -38,8 +38,9 @@ router.post('/', async function (req, res) {
     gear,
     seat,
     fuel,
-    //   owner,
     amount,
+    price,
+    //   owner,
     isAvailable,
     pickUpPoint,
   } = req.body
@@ -59,9 +60,10 @@ router.post('/', async function (req, res) {
     classy,
     gear,
     seat,
-    fuel,
     // owner,
+    fuel,
     amount,
+    price,
     isAvailable,
     pickUpPoint,
   })

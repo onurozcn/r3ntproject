@@ -4,10 +4,9 @@ export default {
   props: ['product'],
 }
 </script>
-
 <template lang="pug">
 .box
-  h2 {{product.name}} {{product.class}}
+  h2 {{product.name}} {{product.price}}
    
 </template>
 

@@ -14,6 +14,7 @@ const socket = io(process.env.VUE_APP_BASE_URL)
 const mutations = {
   INCREMENT_COUNT: 'increment count',
   SET_USER: 'set user',
+  SET_PRODUCT: 'set product',
   SET_LIVE_STREAM: 'set live stream',
   ADD_LIVE_STREAM: 'add live stream',
   ADD_MESSAGE_TO_LIVE_STREAM: 'add message to live stream',
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     user: null,
+    product: null,
     currentLiveStream: null,
     liveStreams: [],
     liveStreamMessages: [],
@@ -33,6 +35,9 @@ const store = new Vuex.Store({
     },
     [mutations.SET_USER](state, user) {
       state.user = user
+    },
+    [mutations.SET_PRODUCT](state, product) {
+      state.product = product
     },
     [mutations.SET_LIVE_STREAM](state, live) {
       state.currentLiveStream = live
@@ -56,6 +61,14 @@ const store = new Vuex.Store({
       const usersRequest = await axios.get('/api/users')
       return usersRequest.data
     },
+    async fetchProducts() {
+      const productsRequest = await axios.get('/api/products')
+      return productsRequest.data
+    },
+    async fetchProduct(store, id) {
+      const productRequest = await axios.get(`/api/products/${id}`)
+      return productRequest.data
+    },
     async fetchSession({ commit }) {
       const user = await axios.get('/api/account/session')
       commit(mutations.SET_USER, user.data || null)
@@ -71,6 +84,9 @@ const store = new Vuex.Store({
     },
     async register(store, user) {
       return axios.post('/api/account', user)
+    },
+    async addProduct(store, product) {
+      return axios.post('/api/products', product)
     },
     async logout({ commit }) {
       await axios.delete('/api/account/session')

@@ -8,6 +8,7 @@ export default {
   components: { Counter },
   data() {
     return {
+      products: [],
       users: [],
       time: new Date(),
       message: '',
@@ -15,9 +16,10 @@ export default {
   },
   async created() {
     this.users = await this.fetchUsers()
+    this.products = await this.fetchProducts()
   },
   methods: {
-    ...mapActions(['fetchUsers', 'goLive', 'sendMessageToLiveStream', 'joinStream']),
+    ...mapActions(['fetchUsers', 'fetchProducts', 'goLive', 'sendMessageToLiveStream', 'joinStream']),
     sendMessage(e) {
       e.preventDefault()
       this.sendMessageToLiveStream(this.message)
@@ -25,7 +27,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['currentLiveStream', 'liveStreams', 'user', 'liveStreamMessages']),
+    ...mapState(['currentLiveStream', 'liveStreams', 'user', 'product', 'liveStreamMessages']),
   },
 }
 </script>
@@ -37,6 +39,9 @@ export default {
     h2 Users
     div(v-for="user in users")
       router-link(:to="`/users/${user._id}`") {{ user.name }}
+    div PRODUCTS
+    div(v-for="product in products")
+      router-link(:to="`/products/${product._id}`") {{ product.name }}
     div(v-if="liveStreams.length")
       h2 Live streams
       div(v-for="stream in liveStreams")

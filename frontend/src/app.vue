@@ -18,6 +18,7 @@ export default {
       router-link(to="/profile") Profile
       router-link(to="/login") Login
       router-link(to="/register") Register
+      router-link(to="/product") Add Product
       a(@click="doLogout" href="#") Logout
     router-view
 </template>

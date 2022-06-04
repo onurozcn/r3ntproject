@@ -1,29 +1,86 @@
 <script>
-// @ is an alias to /src
-/* eslint-disable */
-import axios from 'axios'
-import ProductCard from '@/components/product-card.vue'
+import { mapActions } from 'vuex'
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Product',
-  components: {
-    ProductCard,
-  },
+  name: 'product',
   data() {
     return {
-      products: [],
+      name: '',
+      type: '',
+      classy: '',
+      gear: '',
+      seat: 0,
+      fuel: '',
+      amount: 0,
+      price: 0.0,
+      isAvailable: false,
+      pickUpPoint: '',
+
+      backendError: null,
     }
   },
-  async created() {
-    const productsRequest = await axios.get('/api/products')
-    this.products = productsRequest.data
+  methods: {
+    ...mapActions(['addProduct']),
+    async submitProduct(e) {
+      e.preventDefault()
+
+      try {
+        await this.addProduct({
+          name: this.name,
+          type: this.type,
+          classy: this.classy,
+          gear: this.gear,
+          seat: this.seat,
+          fuel: this.fuel,
+          amount: this.amount,
+          price: this.price,
+          isAvailable: this.isAvailable,
+          pickUpPoint: this.pickUpPoint,
+        })
+
+        this.$router.push('/product')
+      } catch (e) {
+        this.backendError = e.response.data.message
+      }
+    },
   },
 }
 </script>
 
 <template lang="pug">
-  .home
-    h1 Rent Project 
-    h2 PRODUCTS
-    product-card(v-for="product in products" :product="product")
+.product
+    form( @submit="submitProduct")
+      h1 Create a new product
+      label(for="name") Product Name:&nbsp;
+        input(v-model="name" id="name" type="text" placeholder="Product name" required)
+      label(for="type") Product Type:&nbsp;
+        input(v-model="type" id="type" type="text" placeholder="Product type" required)
+      label(for="classy") Product Class:&nbsp;
+        input(v-model="classy" id="classy" type="text" placeholder="Product class" required)
+      label(for="gear") Gear Type:&nbsp;
+        input(v-model="gear" id="gear" type="text" placeholder="Gear type" required)
+
+      label(for="seat") Number of Seats:&nbsp;
+        input(v-model="seat" id="seat" type="number" placeholder="Number of seats" required)
+      label(for="fuel") Fuel Type:&nbsp;
+        input(v-model="fuel" id="fuel" type="text" placeholder="Fuel type" required)
+      label(for="amount") Amount:&nbsp;
+        input(v-model="amount" id="amount" type="number" placeholder="Amount" required)
+      label(for="price") Price per Day:&nbsp;
+        input(v-model="price" id="price" type="number" placeholder="Price per day" required)
+      label(for="isAvailable") Availability:&nbsp;
+        input(v-model="isAvailable" id="isAvailable" type="text" placeholder="Is available?" required)
+      label(for="pickUpPoint") Pick up Point:&nbsp;
+        input(v-model="pickUpPoint" id="pickUpPoint" type="text" placeholder="Pick up point" required)
+
+      input(type="submit" value="Add Product")
+    div(v-if="backendError") {{ backendError }}
 </template>
+
+<style lang="scss" scoped>
+label {
+  display: block;
+  margin: 1rem 0;
+}
+</style>

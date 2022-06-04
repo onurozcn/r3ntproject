@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Profile from '../views/profile.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
+import Product from '../views/product.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,23 @@ export default function init(store) {
           if (store.state.user) return next('/profile')
           return next()
         },
+      },
+      {
+        path: '/product',
+        name: 'addProduct',
+        component: Product,
+        beforeEnter(to, from, next) {
+          if (store.state.product) return next('/product')
+          return next()
+        },
+      },
+      {
+        path: '/products/:id',
+        name: 'ProductDetail',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/product-detail.vue'),
       },
       {
         path: '/login',
