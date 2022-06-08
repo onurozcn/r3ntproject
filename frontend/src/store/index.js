@@ -97,6 +97,10 @@ const store = new Vuex.Store({
         commit(mutations.SET_LIVE_STREAM, state.user._id)
       })
     },
+    async buy() {
+      console.log('buy funcionality')
+      return true
+    },
 
     async addLiveStream({ commit }, stream) {
       commit(mutations.ADD_LIVE_STREAM, stream)

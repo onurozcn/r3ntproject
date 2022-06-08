@@ -2,11 +2,17 @@
 export default {
   name: 'ProductCard',
   props: ['product'],
+  methods: {
+    async buy(prod) {
+      console.log(prod)
+    },
+  },
 }
 </script>
 <template lang="pug">
 .box
   h2 {{product.name}} {{product.price}}
+  button(@click="buy(product)") BUY
    
 </template>
 
