@@ -2,12 +2,12 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'App',
+  name: 'company-page',
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['companyLogout']),
     async doLogout() {
-      await this.logout()
-      this.$router.push('/login')
+      await this.companyLogout()
+      this.$router.push('/company-login')
     },
   },
 }
@@ -16,9 +16,6 @@ export default {
 <template lang="pug">
    #app
      #nav
-       router-link(to="/profile") Profile
-       router-link(to="/login") Login
-       router-link(to="/register") Register
        router-link(to="/product") Add Product
        a(@click="doLogout" href="#") Logout
      router-view

@@ -3,8 +3,12 @@ export default {
   name: 'ProductCard',
   props: ['product'],
   methods: {
-    async buy(prod) {
-      console.log(prod)
+    async rent(prod) {
+      prod.amount = prod.amount - 1
+      console.log(prod.amount)
+      // edit product amount axios call
+      // create invoice axios call
+      // add to orders product, user and invoice
     },
   },
 }
@@ -12,7 +16,7 @@ export default {
 <template lang="pug">
 .box
   h2 {{product.name}} {{product.price}}
-  button(@click="buy(product)") BUY
+  button(@click="rent(product)") RENT
    
 </template>
 

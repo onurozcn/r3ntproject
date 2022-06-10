@@ -1,10 +1,11 @@
+/* eslint-disable func-names */
 const express = require('express')
 
 const router = express.Router()
 
 const Product = require('../models/product')
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
   const products = await Product.find({})
 
   res.send(products)

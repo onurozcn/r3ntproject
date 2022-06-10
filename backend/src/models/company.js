@@ -16,11 +16,11 @@ const companySchema = new mongoose.Schema({
     trim: true,
   },
 
-  password: {
-    type: String,
-    require: true,
-    trim: true,
-  },
+  // password: {
+  //   type: String,
+  //   require: true,
+  //   trim: true,
+  // },
   // products: [
   //   {
   //     type: mongoose.Schema.Types.ObjectId,
