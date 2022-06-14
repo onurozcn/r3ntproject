@@ -1,25 +1,29 @@
 <script>
 import { mapActions } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
+import ProductDetail from '@/components/product-card.vue'
 
 export default {
   name: 'home-page',
   components: {
     Datepicker,
+    ProductDetail,
   },
   data() {
     return {
-      prods: [],
+      product: [],
+      show: false,
     }
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'fetchProducts']),
     async doLogout() {
       await this.logout()
       this.$router.push('/login')
     },
     async fetchAvailableProducts() {
-      this.prods = await this.fetchProducts()
+      this.product = await this.fetchProducts()
+      this.show = !this.show
     },
   },
 }
@@ -27,28 +31,20 @@ export default {
 
 <template lang="pug">
   #app
-    #nav
-      // if logged in show
-      // user info details, implement edit functionality 
-      router-link(to="/personel-info") Personal Info
-      // if logged in dont display
-      router-link(to="/login") Login
-      // if logged in dont display
-      router-link(to="/register") Register
-      //if not logged in dont show
-      a(@click="doLogout" href="#") Logout
-    router-view
     .center
       .datePicker
         h1 Select a date
-        Datepicker(:v-model="date") Start Date 
-        Datepicker(:v-model="date") End Date
-        button(@click="fetchAvailableProducts") Search Available Vehicles
-    
-    div(v-for="product in prods")
-      router-link(:to="`/products/${product._id}`") {{ product.name }}
-
-
+        .container
+         .row
+          .col
+            Datepicker() Start Date 
+          .col
+            Datepicker() End Date
+          .col
+            button(@click="fetchAvailableProducts") Search Available Vehicles
+    //- div(v-if="prods" v-for="product in prods")
+    //-   router-link(:to="`/products/${product._id}`") {{ product.name }}
+    ProductDetail
 
 </template>
 

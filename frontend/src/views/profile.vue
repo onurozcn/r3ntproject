@@ -12,6 +12,7 @@ export default {
       users: [],
       time: new Date(),
       message: '',
+      show: false,
     }
   },
   async created() {
@@ -25,6 +26,9 @@ export default {
       this.sendMessageToLiveStream(this.message)
       this.message = ''
     },
+    showProducts() {
+      this.show = !this.show
+    },
   },
   computed: {
     ...mapState(['currentLiveStream', 'liveStreams', 'user', 'product', 'liveStreamMessages']),
@@ -34,14 +38,15 @@ export default {
 
 <template lang="pug">
   .home
-    h1 Rental Project {{ user.name }}
+    h1(v-if='user') Rental Project {{ user.name }}
     p The time is: {{ time }}
     h2 Users
     div(v-for="user in users")
       router-link(:to="`/users/${user._id}`") {{ user.name }}
-    div PRODUCTS
-    div(v-for="product in products")
-      router-link(:to="`/products/${product._id}`") {{ product.name }}
+    button(@click="showProducts") Show Products
+    div(v-if="show") PRODUCTS
+      div(v-for="product in products")
+        router-link(:to="`/products/${product._id}`") {{ product.name }}
     div(v-if="liveStreams.length")
       h2 Live streams
       div(v-for="stream in liveStreams")

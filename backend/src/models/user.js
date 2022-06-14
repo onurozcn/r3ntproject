@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 const passportLocalMongoose = require('passport-local-mongoose')
-const eventBus = require('./event-bus')
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -9,41 +8,28 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   name: {
     type: String,
-    trim: true
+    trim: true,
   },
   age: {
     type: Number,
-    trim: true
+    trim: true,
   },
-  // password: {
-  //   type: String,
-  //   trim: true,
-  //   required: true
-  // }
+  isCompany: {
+    type: Boolean,
+  },
 })
   
 
 class User {
   
-  constructor() {
-    eventBus.on('payment successful', (product, payment) => {
-      this.balance -= payment
-    })
-
-    eventBus.on('order created', order => {
-      this.orders.push(order)
-    })
-  }
-
-  buy(product) {
-    eventBus.emit('buying started')
-    eventBus.emit('pay', product)
-    eventBus.emit('buying finished')
-  }
+  // buy(product) {
+   
+  // }
+  
 
   // addBalance(amount) {
   //   this.balance += amount
@@ -67,7 +53,7 @@ class User {
  
 userSchema.loadClass(User)
 userSchema.plugin(autopopulate)
-//--------------------------------------------------------------------
+
 userSchema.plugin(passportLocalMongoose, {
   usernameField: 'email',
 })

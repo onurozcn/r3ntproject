@@ -29,14 +29,15 @@ router.patch('/:id', async function (req, res) {
     name: req.body.name,
     age: req.body.age,
     email: req.body.email,
+    isCompany: req.body.isCompany,
   })
   res.send(user)
 })
 
 router.post('/', async function (req, res) {
-  const { name, email, age } = req.body
+  const { name, email, age, isCompany} = req.body
 
-  if (!email || !name || !age) {
+  if (!email || !name || !age || !isCompany) {
     res
       .send({
         message: 'Missing fields.',
@@ -49,6 +50,7 @@ router.post('/', async function (req, res) {
     name,
     email,
     age,
+    isCompany,
   })
 
   res.send(user)
@@ -58,5 +60,8 @@ router.delete('/:id', async function (req, res) {
   await User.findByIdAndDelete(req.params.id)
   res.sendStatus(200)
 })
-
+router.delete('/', async function (req, res) {
+  await User.deleteMany()
+  res.sendStatus(200)
+})
 module.exports = router

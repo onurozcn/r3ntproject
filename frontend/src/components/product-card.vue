@@ -15,8 +15,8 @@ export default {
 </script>
 <template lang="pug">
 .box
-  h2 {{product.name}} {{product.price}}
-  button(@click="rent(product)") RENT
+    h2 {{product.name}} {{product.price}}
+    button(@click="rent(product)") RENT
    
 </template>
 

@@ -3,8 +3,16 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      user: [],
+    }
+  },
+  async created() {
+    this.user = await this.fetchSession()
+  },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'fetchSession']),
     async doLogout() {
       await this.logout()
       this.$router.push('/login')
@@ -16,11 +24,11 @@ export default {
 <template lang="pug">
    #app
      #nav
-       router-link(to="/profile") Profile
-       router-link(to="/login") Login
-       router-link(to="/register") Register
-       router-link(to="/product") Add Product
-       a(@click="doLogout" href="#") Logout
+        router-link(v-if="user" to="/profile") Profile
+        router-link(v-if="!user" to="/login") Login
+        router-link(v-if="!user" to="/register") Register
+        router-link(v-if="user.isCompany" to="/product") Add Product
+        a(v-if="user" @click="doLogout" href="#") Logout
      router-view
  </template>
 

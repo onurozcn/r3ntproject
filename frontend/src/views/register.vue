@@ -10,6 +10,7 @@ export default {
       age: null,
       email: '',
       password: '',
+      isCompany: false,
 
       backendError: null,
     }
@@ -25,6 +26,7 @@ export default {
           age: this.age,
           email: this.email,
           password: this.password,
+          isCompany: this.isCompany,
         })
 
         this.$router.push('/login')
@@ -48,7 +50,10 @@ export default {
         input(v-model="email" id="email" type="email" placeholder="Your email" required)
       label(for="password") Password:&nbsp;
         input(v-model="password" id="password" type="password" placeholder="Your password" required)
+      label(for="isCompany") Company:&nbsp;
+        input(type="checkbox" v-on:click ="isCompany=true")
       input(type="submit" value="Register")
+
     div(v-if="backendError") {{ backendError }}
     div Already have an account? <router-link to="/login">Log in</router-link>
 </template>

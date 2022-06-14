@@ -41,7 +41,7 @@ router.post('/', async function (req, res) {
     fuel,
     amount,
     price,
-    //   owner,
+    owner,
     isAvailable,
     pickUpPoint,
   } = req.body
@@ -61,7 +61,7 @@ router.post('/', async function (req, res) {
     classy,
     gear,
     seat,
-    // owner,
+    owner,
     fuel,
     amount,
     price,
@@ -72,10 +72,14 @@ router.post('/', async function (req, res) {
   res.send(product)
 })
 
-// router.delete('/:id', async function (req, res) {
-//   await User.findByIdAndDelete(req.params.id)
+router.delete('/:id', async function (req, res) {
+  await Product.findByIdAndDelete(req.params.id)
 
-//   res.sendStatus(200)
-// })
+  res.sendStatus(200)
+})
+router.delete('/', async function (req,res){
+  await Product.deleteMany()
+  res.sendStatus(200)
+})
 
 module.exports = router

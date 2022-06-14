@@ -32,10 +32,11 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  // owner: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Company',
-  // },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    autopopulate: true,
+  },
   amount: {
     type: Number,
     trim: true,

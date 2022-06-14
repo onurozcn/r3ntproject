@@ -26,7 +26,6 @@ const store = new Vuex.Store({
     count: 0,
     user: null,
     product: null,
-    company: null,
     currentLiveStream: null,
     liveStreams: [],
     liveStreamMessages: [],
@@ -37,9 +36,6 @@ const store = new Vuex.Store({
     },
     [mutations.SET_USER](state, user) {
       state.user = user
-    },
-    [mutations.COMPANY](state, company) {
-      state.company = company
     },
     [mutations.SET_PRODUCT](state, product) {
       state.product = product
@@ -74,64 +70,37 @@ const store = new Vuex.Store({
       const productRequest = await axios.get(`/api/products/${id}`)
       return productRequest.data
     },
-
-    // ?????????????????????????????????
-    async fetchUserSession({ commit }) {
-      const user = await axios.get('/api/account/user-session/session')
+    async fetchSession({ commit }) {
+      const user = await axios.get('/api/account/session')
+      console.log(user.data._id)
       commit(mutations.SET_USER, user.data || null)
-    },
-    async fetchCompanySession({ commit }) {
-      const company = await axios.get('/api/account/company-session/session')
-      commit(mutations.SET_COMPANY, company.data || null)
+      return user.data
     },
     async login({ commit }, credentials) {
       // eslint-disable-next-line no-useless-catch
       try {
-        const user = await axios.post('/api/account/user-session/session', credentials)
+        const user = await axios.post('/api/account/session', credentials)
         commit(mutations.SET_USER, user.data)
       } catch (e) {
         throw e
       }
     },
-    async companyLogin({ commit }, credentials) {
-      // eslint-disable-next-line no-useless-catch
-      try {
-        const company = await axios.post('/api/account/company-session/session', credentials)
-        commit(mutations.SET_COMPANY, company.data)
-      } catch (e) {
-        throw e
-      }
-    },
     async register(store, user) {
-      return axios.post('/api/account/user-session/session', user)
-    },
-    async companyRegister(store, company) {
-      return axios.post('/api/account/company-session/session', company)
+      return axios.post('/api/account', user)
     },
     async addProduct(store, product) {
-      return axios.post('/api/products', product)
+      await axios.post('/api/products', product)
+      return axios.get('/api')
     },
     async logout({ commit }) {
-      await axios.delete('/api/account/user-session/session')
+      await axios.delete('/api/account/session')
       commit(mutations.SET_USER, null)
-    },
-    async companyLogout({ commit }) {
-      await axios.delete('/api/account/company-session/session')
-      commit(mutations.SET_COMPANY, null)
     },
     async goLive({ state, commit }) {
       socket.emit('go live', state.user._id, () => {
         commit(mutations.SET_LIVE_STREAM, state.user._id)
       })
     },
-    async buy() {
-      //pass the product and user
-      // create invoice - pass product, user
-      // create order - pass invoice
-      console.log('buy funcionality')
-      return true
-    },
-
     async addLiveStream({ commit }, stream) {
       commit(mutations.ADD_LIVE_STREAM, stream)
     },
@@ -160,7 +129,6 @@ socket.on('new live stream message', message => {
 })
 
 export default async function init() {
-  await store.dispatch('fetchUserSession')
-  // await store.dispatch('fetchCompanySession')
+  await store.dispatch('fetchSession')
   return store
 }

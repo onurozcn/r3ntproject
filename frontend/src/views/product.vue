@@ -16,12 +16,15 @@ export default {
       price: 0.0,
       isAvailable: false,
       pickUpPoint: '',
-
+      owner: '',
       backendError: null,
     }
   },
+  async created() {
+    this.user = await this.fetchSession()
+  },
   methods: {
-    ...mapActions(['addProduct']),
+    ...mapActions(['addProduct', 'fetchSession']),
     async submitProduct(e) {
       e.preventDefault()
 
@@ -37,9 +40,9 @@ export default {
           price: this.price,
           isAvailable: this.isAvailable,
           pickUpPoint: this.pickUpPoint,
+          owner: this.user,
         })
-
-        this.$router.push('/product')
+        this.$router.push('/').catch(()=>{})
       } catch (e) {
         this.backendError = e.response.data.message
       }

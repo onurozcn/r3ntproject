@@ -35,4 +35,9 @@ router.post('/', async function (req, res) {
   res.send(invoice)
 })
 
+router.delete('/', async function(req, res){
+  await Invoice.deleteMany()
+  res.sendStatus(200)
+})
+
 module.exports = router

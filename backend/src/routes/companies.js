@@ -2,10 +2,9 @@ const express = require('express')
 
 const router = express.Router()
 
-//const Product = require('../models/product')
 const Company = require('../models/company')
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
   const company = await Company.find({})
 
   res.send(company)
@@ -30,5 +29,10 @@ router.post('/', async function (req, res) {
   })
 
   res.send(company)
+})
+
+router.delete('/', async function(req, res){
+  await Company.deleteMany()
+  res.sendStatus(200)
 })
 module.exports = router
