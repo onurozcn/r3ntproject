@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template lang="pug">
-.login
+  .login
     form(@submit="submitLogin")
       h1 Log in to your account
       label(for="email") Email:&nbsp;
@@ -48,5 +48,17 @@ export default {
 label {
   display: block;
   margin: 1rem 0;
+}
+input{
+  align: center;
+}
+.login {
+  padding: 50px;
+}
+h1 {
+  color: red;
+}
+label { 
+  margin-right: 25px;
 }
 </style>

@@ -4,6 +4,8 @@ const express = require('express')
 const router = express.Router()
 
 const Invoice = require('../models/invoice')
+const Order = require('../models/order')
+
 
 router.get('/', async function (req, res) {
   const invoices = await Invoice.find({})
@@ -16,8 +18,9 @@ router.get('/:id', async function (req, res) {
 })
 
 router.post('/', async function (req, res) {
-  const { userId, productName, productPrice } = req.body
-  if (!userId || !productName || !productPrice) {
+  console.log(req.body)
+  const { user, product } = req.body
+  if (!user || !product) {
     res
       .send({
         message: 'Missing fields.',
@@ -27,11 +30,18 @@ router.post('/', async function (req, res) {
   }
 
   const invoice = await Invoice.create({
-    userId,
-    productName,
-    productPrice,
+    user,
+    productName: product.name,
+    productPrice: product.price,
   })
-
+  console.log('INVOICE CREATED')
+  // eslint-disable-next-line no-unused-vars
+  const order = await Order.create({
+    product,
+    invoice,
+    user,
+  })
+  console.log('ORDER CREATED')
   res.send(invoice)
 })
 

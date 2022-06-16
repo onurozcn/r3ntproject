@@ -1,15 +1,29 @@
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'ProductCard',
   props: ['product'],
+  async created() {
+    this.user = await this.fetchSession()
+  },
   methods: {
+    ...mapActions(['createInvoice', 'fetchSession']),
     async rent(prod) {
-      prod.amount = prod.amount - 1
-      console.log(prod.amount)
-      // edit product amount axios call
-      // create invoice axios call
-      // add to orders product, user and invoice
+      try {
+        await this.createInvoice({
+          user: this.user._id,
+          product: prod,
+        })
+        this.$router.push('/').catch(() => {})
+      } catch (e) {
+        this.backendError = e.response.data.message
+      }
     },
+    // prod.amount = prod.amount - 1
+    // console.log(prod.amount)
+    // edit product amount axios call
+    // create invoice axios call
+    // add to orders product, user and invoice
   },
 }
 </script>

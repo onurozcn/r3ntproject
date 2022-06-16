@@ -42,7 +42,7 @@ export default {
           pickUpPoint: this.pickUpPoint,
           owner: this.user,
         })
-        this.$router.push('/').catch(()=>{})
+        this.$router.push('/').catch(() => {})
       } catch (e) {
         this.backendError = e.response.data.message
       }

@@ -2,27 +2,23 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const invoiceSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-      // mongoose.Schema.Types.ObjectId,
-      // ref: 'User',
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    autopopulate: true
   },
   productName: {
-      type: String,
-      // ref: 'Product',
+    type: String
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'Product',
   },
   productPrice: {
-      type: Number,
-      // ref: 'Product',
+    type : Number
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'Product',
   },
 })
-class Invoice {
-  // constructor(product, user) {
-  //   this.userId = user.id
-  //   this.productName = product.name
-  //   this.productPrice = product.price
-  // }
-}
+class Invoice {}
 
 
  

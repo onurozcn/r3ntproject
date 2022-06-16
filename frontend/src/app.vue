@@ -22,14 +22,27 @@ export default {
 </script>
 
 <template lang="pug">
-   #app
-     #nav
-        router-link(v-if="user" to="/profile") Profile
-        router-link(v-if="!user" to="/login") Login
-        router-link(v-if="!user" to="/register") Register
-        router-link(v-if="user.isCompany" to="/product") Add Product
-        a(v-if="user" @click="doLogout" href="#") Logout
-     router-view
+  #app
+    #nav
+      nav.navbar.navbar-expand-lg.bg-light
+        .container-fluid
+          a.navbar-brand(href='#') R3NTALS
+          button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav.justify-content-end
+              li.nav-item
+                router-link.nav-link(v-if="user" to="/profile") Profile
+              li.nav-item
+                router-link.nav-link(v-if="!user" to="/login") Login
+              li.nav-item
+                router-link.nav-link(v-if="!user" to="/register") Register
+              li.nav-item
+                router-link.nav-link(v-if="user.isCompany" to="/product") Add Product
+              li.nav-item
+                a.nav-link(v-if="user" @click="doLogout" href="#") Logout
+    router-view
+  
  </template>
 
 <style lang="scss">
@@ -41,7 +54,7 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 3px;
   a {
     font-weight: bold;
     color: #2c3e50;
@@ -51,5 +64,8 @@ export default {
       color: #42b983;
     }
   }
+}
+footer {
+  background: black;
 }
 </style>

@@ -13,7 +13,7 @@ ADD public ./public
 
 RUN npm run build
 
-FROM node:18.1.0-alpine3.14
+FROM node:16-alpine
 
 WORKDIR /app
 

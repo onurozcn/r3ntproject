@@ -22,9 +22,9 @@ router.get('/:id', async function (req, res) {
 })
 
 router.post('/', async function (req, res) {
-  const { productId, invoiceId } = req.body
+  const { product, invoice, user } = req.body
 
-  if (!productId || !invoiceId) {
+  if (!product || !invoice || !user) {
     res
       .send({
         message: 'Missing parameters/fields.',
@@ -33,8 +33,9 @@ router.post('/', async function (req, res) {
     return
   }
   const order = await Order.create({
-    productId,
-    invoiceId,
+    product,
+    invoice,
+    user,
   })
   res.send(order)
 })

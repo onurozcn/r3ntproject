@@ -90,8 +90,15 @@ const store = new Vuex.Store({
     },
     async addProduct(store, product) {
       await axios.post('/api/products', product)
-      return axios.get('/api')
     },
+    // ---------------------------
+    async createInvoice(store, userId, productName, productPrice) {
+      await axios.post('/api/invoices', userId, productName, productPrice)
+    },
+    // async createOrder(store, invoice) {
+    //   await axios.post('/api/orders', invoice)
+    // },
+    // ---------------------------
     async logout({ commit }) {
       await axios.delete('/api/account/session')
       commit(mutations.SET_USER, null)
