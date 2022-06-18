@@ -52,7 +52,12 @@ const productSchema = new mongoose.Schema({
   }, // for now it takes string, later on it should take a coordinate or location directly
 })
 
-class Product {}
+class Product {
+  set setAmount(prd) {
+    this.amount = prd.amount - 1  
+    this.save()
+  }
+}
 
 productSchema.loadClass(Product)
 productSchema.plugin(autopopulate)

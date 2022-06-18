@@ -20,6 +20,14 @@ router.get('/:id', async function (req, res) {
   }
   res.send(order)
 })
+router.get('/user/:UserId/', async function (req, res) {
+  const orders = await Order.find({ user: req.params.UserId })
+  if (!orders) {
+    res.sendStatus(404)
+    return
+  }
+  res.send(orders)
+})
 
 router.post('/', async function (req, res) {
   const { product, invoice, user } = req.body

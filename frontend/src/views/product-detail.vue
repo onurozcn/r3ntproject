@@ -22,7 +22,6 @@ export default {
 
 <template lang="pug">
   .about
-    h1 This is a Product detail
     ProductCard(:product="product" v-if="product")
     Counter
 </template>

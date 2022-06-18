@@ -30,6 +30,11 @@ const store = new Vuex.Store({
     liveStreams: [],
     liveStreamMessages: [],
   },
+  // getters: {
+  //   user: function (state) {
+  //     return `${state.user}`
+  //   },
+  // },
   mutations: {
     [mutations.INCREMENT_COUNT](state) {
       state.count++

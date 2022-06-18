@@ -4,7 +4,6 @@ const express = require('express')
 const router = express.Router()
 
 const User = require('../models/user')
-const Order = require('../models/order')
 
 router.get('/', async function (req, res) {
   const users = await User.find({})
@@ -21,14 +20,6 @@ router.get('/:id/json', async function (req, res) {
   }
 
   res.send(user)
-})
-router.get('/:id/orders', async function (req, res) {
-  const orders = await Order.find({ user: req.params.id })
-  if(!orders){
-    res.sendStatus(404)
-    return
-  }
-  res.send(orders)
 })
 
 router.patch('/:id', async function (req, res) {

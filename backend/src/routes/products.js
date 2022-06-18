@@ -22,14 +22,24 @@ router.get('/:id', async function (req, res) {
   res.send(product)
 })
 
-// router.patch('/:id', async function (req, res) {
-//   const user = await User.findByIdAndUpdate(req.params.id, {
-//     name: req.body.name,
-//     age: req.body.age,
-//     email: req.body.email,
-//   })
-//   res.send(user)
-// })
+router.patch('/:id', async function (req, res) {
+  const product = await Product.findByIdAndUpdate(req.params.id, {
+    name: req.body.name,
+    type: req.body.type,
+    classy: req.body.classy,
+    gear: req.body.gear,
+    seat: req.body.seat,
+    fuel: req.body.fuel,
+    amount: req.body.amount,
+    price: req.body.price,
+    // owner: req.params.owner,
+    isAvailable: req.body.isAvailable,
+    pickUpPoint: req.body.pickUpPoint,
+  })
+  console.log("PATCH")
+  console.log(product)
+  res.send(product)
+})
 
 router.post('/', async function (req, res) {
   const {
@@ -46,14 +56,6 @@ router.post('/', async function (req, res) {
     pickUpPoint,
   } = req.body
 
-  // if (!email || !name || !age) {
-  //   res
-  //     .send({
-  //       message: 'Missing fields.',
-  //     })
-  //     .status(400)
-  //   return
-  // }
 
   const product = await Product.create({
     name,

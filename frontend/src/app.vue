@@ -41,6 +41,14 @@ export default {
                 router-link.nav-link(v-if="user.isCompany" to="/product") Add Product
               li.nav-item
                 a.nav-link(v-if="user" @click="doLogout" href="#") Logout
+                
+    ul#footer.nav.fixed-bottom.justify-content-center
+      li.nav-item
+        a.nav-link(aria-current='page', href='#') Privacy Policy
+      li.nav-item
+        a.nav-link(href='#') About Us
+      li.nav-item
+        a.nav-link(href='#') Terms of Use
     router-view
   
  </template>
@@ -65,7 +73,7 @@ export default {
     }
   }
 }
-footer {
-  background: black;
+#footer {
+  background: white;
 }
 </style>

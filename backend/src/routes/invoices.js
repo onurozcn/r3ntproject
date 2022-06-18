@@ -5,7 +5,7 @@ const router = express.Router()
 
 const Invoice = require('../models/invoice')
 const Order = require('../models/order')
-
+// const Product = require('../models/product')
 
 router.get('/', async function (req, res) {
   const invoices = await Invoice.find({})
@@ -36,16 +36,21 @@ router.post('/', async function (req, res) {
   })
   console.log('INVOICE CREATED')
   // eslint-disable-next-line no-unused-vars
+
   const order = await Order.create({
     product,
     invoice,
     user,
   })
+  
+  // Product.setAmount(product)
+  // console.log(product)
   console.log('ORDER CREATED')
+
   res.send(invoice)
 })
 
-router.delete('/', async function(req, res){
+router.delete('/', async function (req, res) {
   await Invoice.deleteMany()
   res.sendStatus(200)
 })
