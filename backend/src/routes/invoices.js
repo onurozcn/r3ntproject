@@ -49,6 +49,17 @@ router.post('/', async function (req, res) {
 
   res.send(invoice)
 })
+router.get('/user/:id/', async function (req, res) {
+  const invoices = await Invoice.find({ user: req.params.id })
+  if (!invoices) {
+    res.sendStatus(404)
+    return
+  }
+  console.log('USER ORDERS')
+  console.log(invoices)
+  console.log('END')
+  res.send(invoices)
+})
 
 router.delete('/', async function (req, res) {
   await Invoice.deleteMany()

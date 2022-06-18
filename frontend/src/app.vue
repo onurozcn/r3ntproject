@@ -24,7 +24,7 @@ export default {
 <template lang="pug">
   #app
     #nav
-      nav.navbar.navbar-expand-lg.bg-light
+      nav#sticky-nav.navbar.navbar-expand-lg.bg-light
         .container-fluid
           a.navbar-brand(href='#') R3NTALS
           button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
@@ -33,6 +33,8 @@ export default {
             ul.navbar-nav.justify-content-end
               li.nav-item
                 router-link.nav-link(v-if="user" to="/profile") Profile
+              li.nav-item
+                router-link.nav-link(v-if="user" to="/order") Orders&Invoices
               li.nav-item
                 router-link.nav-link(v-if="!user" to="/login") Login
               li.nav-item

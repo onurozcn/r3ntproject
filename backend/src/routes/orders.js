@@ -20,12 +20,15 @@ router.get('/:id', async function (req, res) {
   }
   res.send(order)
 })
-router.get('/user/:UserId/', async function (req, res) {
-  const orders = await Order.find({ user: req.params.UserId })
+router.get('/user/:id/', async function (req, res) {
+  const orders = await Order.find({ user: req.params.id })
   if (!orders) {
     res.sendStatus(404)
     return
   }
+  console.log("USER ORDERS")
+  console.log(orders)
+  console.log('END')
   res.send(orders)
 })
 

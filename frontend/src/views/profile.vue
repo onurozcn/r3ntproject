@@ -1,6 +1,6 @@
 <script>
 import Counter from '@/components/counter.vue'
-import Product from '@/components/product-card'
+// import Product from '@/components/product-card'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -14,6 +14,13 @@ export default {
       time: new Date(),
       message: '',
       show: false,
+      fPrice: 0,
+
+      // search: {
+      //   fPrice: 10000,
+      //   rType: [],
+      //   fType: [],
+      // },
     }
   },
   async created() {
@@ -21,7 +28,7 @@ export default {
     this.products = await this.fetchProducts()
   },
   methods: {
-    ...mapActions(['createInvoice','fetchUsers', 'fetchProducts', 'goLive', 'sendMessageToLiveStream', 'joinStream']),
+    ...mapActions(['createInvoice', 'fetchUsers', 'fetchProducts', 'goLive', 'sendMessageToLiveStream', 'joinStream']),
     sendMessage(e) {
       e.preventDefault()
       this.sendMessageToLiveStream(this.message)
@@ -42,6 +49,22 @@ export default {
         this.backendError = e.response.data.message
       }
     },
+    async searchFilter(e) {
+      e.preventDefault()
+
+      try {
+        //  add filter method to state index
+        await this.filterProducts({
+          fPrice: price,
+          // type: this.rType,
+          // fuel: this.fType,
+        })
+
+        this.$router.push('/')
+      } catch (e) {
+        this.backendError = e.response.data.message
+      }
+    },
   },
   computed: {
     ...mapState(['currentLiveStream', 'liveStreams', 'user', 'product', 'liveStreamMessages']),
@@ -58,29 +81,8 @@ export default {
         .col-2
           form(@submit="searchFilter")
            div
-            label(for="priceRange") Price Range up to :&nbsp;
-              input(id="priceRange" type="text" placeholder="Max Price")
-              br
-           div
-            label(for="rentalType") Select Type :
-              br
-              input.rentalType(type="checkbox" name="car" value="car")
-              label(for="car") Car
-              br
-              input.rentalType(type="checkbox" name="bike" value="bike")
-              label(for="bike") Bike 
-              br
-           div
-            label(for="fuelType") Fuel Type :
-              br
-              input.fuelType(type="checkbox" name="gasoline" value="gasoline")
-              label(for="gasoline") Gasoline
-              br
-              input.fuelType(type="checkbox" name="diesel" value="diesel")
-              label(for="diesel") Diesel
-              br
-              input.fuelType(type="checkbox" name="electric" value="electric")
-              label(for="electric") Electric 
+            label(for="price") Price Range up to :&nbsp;
+              input(id="priceRange" type="number" placeholder="Max Price")
            div
             input(type="submit" value="Search")
 
@@ -90,26 +92,15 @@ export default {
             .row.prodLayout
               .col-5.container.card-container(v-for="product in products")
                 .row
-                  .col-5
+                  .col-6
                     img(src='https://th.bing.com/th/id/R.481249181a9952b4f26e84ac8ca731d5?rik=LADSC%2buUfrk8bQ&riu=http%3a%2f%2feskipaper.com%2fimages%2fbatmobile-1.jpg&ehk=PVKsAAGBELoHEOa4190yuzhh02F%2fMXEvg6pG%2bV1GS18%3d&risl=&pid=ImgRaw&r=0' width='100%' height='100%')
-                  .col-7
+                  .col-6
                     router-link(:to="`/products/${product._id}`")
                       h3 {{ product.name }}
                     h5 Product Price: 
                       p {{ product.price }} €
                     button.btn.btn-primary(@click="rent(product)") Rent
               
-            
-  //- .home
-  //-   h1(v-if='user') Rental Project {{ user.name }}
-  //-   p The time is: {{ time }}
-  //-   h2 Users
-  //-   div(v-for="user in users")
-  //-     router-link(:to="`/users/${user._id}`") {{ user.name }}
-  //-   button(@click="showProducts") Show Products
-  //-   div(v-if="show") PRODUCTS
-  //-     div(v-for="product in products")
-  //-       router-link(:to="`/products/${product._id}`") {{ product.name }}
   //-   div(v-if="liveStreams.length")
   //-     h2 Live streams
   //-     div(v-for="stream in liveStreams")
@@ -141,24 +132,24 @@ export default {
   border-radius: 8px;
   place-items: center;
 }
-.container{
+.container {
   padding: 2px;
   margin: 5px;
 }
-div{
+div {
   padding: 0.3rem;
 }
-.rentalType{
+.rentalType {
   margin: 3px;
 }
-label{ 
+label {
   margin: 1px;
   padding: 1px;
 }
-#priceRange{
+#priceRange {
   width: 100px;
 }
-.prodLayout{
+.prodLayout {
   justify-content: center;
 }
 </style>

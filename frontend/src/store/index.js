@@ -59,6 +59,10 @@ const store = new Vuex.Store({
     incrementCount({ commit }) {
       commit(mutations.INCREMENT_COUNT)
     },
+    async filterProducts(store, fPrice) {
+      const filteredProduct = await axios.get('/api/products/filter', fPrice)
+      return filteredProduct.data
+    },
     async fetchUser(store, id) {
       const userRequest = await axios.get(`/api/users/${id}/json`)
       return userRequest.data
@@ -66,6 +70,14 @@ const store = new Vuex.Store({
     async fetchUsers() {
       const usersRequest = await axios.get('/api/users')
       return usersRequest.data
+    },
+    async fetchUserOrders(store, id) {
+      const userOrders = await axios.get(`/api/orders/user/${id}`)
+      return userOrders.data
+    },
+    async fetchUserInvoices(store, id) {
+      const userInvoices = await axios.get(`/api/invoices/user/${id}`)
+      return userInvoices.data
     },
     async fetchProducts() {
       const productsRequest = await axios.get('/api/products')
@@ -96,14 +108,9 @@ const store = new Vuex.Store({
     async addProduct(store, product) {
       await axios.post('/api/products', product)
     },
-    // ---------------------------
     async createInvoice(store, userId, productName, productPrice) {
       await axios.post('/api/invoices', userId, productName, productPrice)
     },
-    // async createOrder(store, invoice) {
-    //   await axios.post('/api/orders', invoice)
-    // },
-    // ---------------------------
     async logout({ commit }) {
       await axios.delete('/api/account/session')
       commit(mutations.SET_USER, null)

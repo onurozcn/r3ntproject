@@ -49,16 +49,13 @@ label {
   display: block;
   margin: 1rem 0;
 }
-input{
-  align: center;
-}
 .login {
   padding: 50px;
 }
 h1 {
   color: red;
 }
-label { 
+label {
   margin-right: 25px;
 }
 </style>

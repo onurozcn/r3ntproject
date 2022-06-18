@@ -22,6 +22,13 @@ router.get('/:id', async function (req, res) {
   res.send(product)
 })
 
+router.get('/filter', async (req, res) => {
+  const {fPrice, type, fuel} = req.body
+  const product = await Product.find({ price: { $gt: fPrice } })
+  console.log(product)
+  res.send(product)
+})
+
 router.patch('/:id', async function (req, res) {
   const product = await Product.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
