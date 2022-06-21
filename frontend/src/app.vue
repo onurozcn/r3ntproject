@@ -1,22 +1,27 @@
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      user: [],
-    }
-  },
-  async created() {
-    this.user = await this.fetchSession()
-  },
+  // data() {
+  //   return {
+  //     user: [],
+  //   }
+  // },
+  // async created() {
+  //   this.user = await this.fetchSession()
+  // },
   methods: {
-    ...mapActions(['logout', 'fetchSession']),
+    ...mapActions(['logout']),
     async doLogout() {
+      // console.log(this.user)
       await this.logout()
-      this.$router.push('/login')
+      //this.$router.push('/login')
+      // location.reload()
     },
+  },
+  computed: {
+    ...mapState(['user']),
   },
 }
 </script>
@@ -32,7 +37,7 @@ export default {
           #navbarNav.collapse.navbar-collapse
             ul.navbar-nav.justify-content-end
               li.nav-item
-                router-link.nav-link(v-if="user" to="/profile") Profile
+                router-link.nav-link(v-if="user" to="/profile") Home Page
               li.nav-item
                 router-link.nav-link(v-if="user" to="/order") Orders&Invoices
               li.nav-item
@@ -40,7 +45,9 @@ export default {
               li.nav-item
                 router-link.nav-link(v-if="!user" to="/register") Register
               li.nav-item
-                router-link.nav-link(v-if="user.isCompany" to="/product") Add Product
+                router-link.nav-link(v-if="user && user.isCompany" to="/company-products") Products
+              li.nav-item
+                router-link.nav-link(v-if="user && user.isCompany" to="/add-product") Add Product
               li.nav-item
                 a.nav-link(v-if="user" @click="doLogout" href="#") Logout
                 

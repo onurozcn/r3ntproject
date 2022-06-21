@@ -23,6 +23,7 @@ export default {
         })
 
         this.$router.push('/profile')
+        // location.reload()
       } catch (e) {
         this.backendError = e.response.data.message
       }

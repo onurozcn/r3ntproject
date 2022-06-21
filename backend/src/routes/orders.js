@@ -26,9 +26,9 @@ router.get('/user/:id/', async function (req, res) {
     res.sendStatus(404)
     return
   }
-  console.log("USER ORDERS")
-  console.log(orders)
-  console.log('END')
+  // console.log("USER ORDERS")
+  // console.log(orders)
+  // console.log('END')
   res.send(orders)
 })
 

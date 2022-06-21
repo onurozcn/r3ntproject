@@ -3,7 +3,7 @@ import { mapActions } from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'product',
+  name: 'add-product',
   data() {
     return {
       name: '',
@@ -65,19 +65,18 @@ export default {
         input(v-model="gear" id="gear" type="text" placeholder="Gear type" required)
 
       label(for="seat") Number of Seats:&nbsp;
-        input(v-model="seat" id="seat" type="number" placeholder="Number of seats" required)
+        input(v-model="seat" id="seat" type="number" min="0" placeholder="Number of seats" required)
       label(for="fuel") Fuel Type:&nbsp;
         input(v-model="fuel" id="fuel" type="text" placeholder="Fuel type" required)
       label(for="amount") Amount:&nbsp;
-        input(v-model="amount" id="amount" type="number" placeholder="Amount" required)
+        input(v-model="amount" id="amount" type="number" min="0" placeholder="Amount" required)
       label(for="price") Price per Day:&nbsp;
-        input(v-model="price" id="price" type="number" placeholder="Price per day" required)
+        input(v-model="price" id="price" type="number" min="0" placeholder="Price per day" required)
       label(for="isAvailable") Availability:&nbsp;
         input(v-model="isAvailable" id="isAvailable" type="text" placeholder="Is available?" required)
       label(for="pickUpPoint") Pick up Point:&nbsp;
         input(v-model="pickUpPoint" id="pickUpPoint" type="text" placeholder="Pick up point" required)
-
-      input(type="submit" value="Add Product")
+      input.button(type="submit" value="Add Product")
     div(v-if="backendError") {{ backendError }}
 </template>
 
@@ -85,5 +84,11 @@ export default {
 label {
   display: block;
   margin: 1rem 0;
+}
+.button {
+  margin-bottom: 50px;
+}
+.product {
+  padding: 20px;
 }
 </style>

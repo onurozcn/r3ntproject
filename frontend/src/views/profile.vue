@@ -44,27 +44,27 @@ export default {
           product: prod,
         })
         alert('Congrats!! Rent operation successful!!')
-        this.$router.push('/').catch(() => {})
+        this.$router.push('/order').catch(() => {})
       } catch (e) {
         this.backendError = e.response.data.message
       }
+      // location.reload()
     },
-    async searchFilter(e) {
-      e.preventDefault()
+    // async searchFilter(e) {
+    //   e.preventDefault()
 
-      try {
-        //  add filter method to state index
-        await this.filterProducts({
-          fPrice: price,
-          // type: this.rType,
-          // fuel: this.fType,
-        })
-
-        this.$router.push('/')
-      } catch (e) {
-        this.backendError = e.response.data.message
-      }
-    },
+    //   try {
+    //     //  add filter method to state index
+    //     this.products = await this.filterProducts({
+    //       fPrice: this.price,
+    //       // type: this.rType,
+    //       // fuel: this.fType,
+    //     })
+    //     this.$router.push('/')
+    //   } catch (e) {
+    //     this.backendError = e.response.data.message
+    //   }
+    // },
   },
   computed: {
     ...mapState(['currentLiveStream', 'liveStreams', 'user', 'product', 'liveStreamMessages']),
@@ -79,7 +79,7 @@ export default {
     .container(v-if="show")
       .row
         .col-2
-          form(@submit="searchFilter")
+          form(@submit="searchFilter()")
            div
             label(for="price") Price Range up to :&nbsp;
               input(id="priceRange" type="number" placeholder="Max Price")

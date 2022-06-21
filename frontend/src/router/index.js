@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Profile from '../views/profile.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
-import Product from '../views/product.vue'
+import AddProduct from '../views/add-product.vue'
+import CompanyProducts from '../views/company-products.vue'
+// import EditProduct from '../views/edit-product.vue'
 // import HomePage from '../views/home-page.vue'
 
 Vue.use(VueRouter)
@@ -44,9 +46,26 @@ export default function init(store) {
         },
       },
       {
-        path: '/product',
+        path: '/add-product',
         name: 'addProduct',
-        component: Product,
+        component: AddProduct,
+        beforeEnter(to, from, next) {
+          if (store.state.product) return next('/')
+          return next()
+        },
+      },
+      {
+        path: '/edit-products/:id',
+        name: 'EditProduct',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/edit-product.vue'),
+      },
+      {
+        path: '/company-products/',
+        name: 'companyProducts',
+        component: CompanyProducts,
         beforeEnter(to, from, next) {
           if (store.state.product) return next('/')
           return next()
@@ -60,14 +79,11 @@ export default function init(store) {
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/product-detail.vue'),
       },
-      // {
-      //   path: '/products/:id',
-      //   name: 'ProductDetail',
-      //   // route level code-splitting
-      //   // this generates a separate chunk (about.[hash].js) for this route
-      //   // which is lazy-loaded when the route is visited.
-      //   component: () => import(/* webpackChunkName: "about" */ '../views/product-detail.vue'),
-      // },
+      {
+        path: '/order/invoice/:id',
+        name: 'Invoice',
+        component: () => import('../components/invoice-card.vue'),
+      },
       {
         path: '/login',
         name: 'login',

@@ -12,8 +12,6 @@ export default {
     //-   | Should enter your email!!
     //- p(v-else)
       | {{ user.email}}
-
-
 </template>
 
 <style lang="scss" scoped>

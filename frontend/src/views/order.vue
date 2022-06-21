@@ -1,5 +1,5 @@
 <script>
-// import OrderCard from '@/components/order-card.vue'
+// import InvoiceCard from '@/components/invoice-card.vue'
 import { mapActions } from 'vuex'
 
 export default {
@@ -9,6 +9,7 @@ export default {
       orders: [],
       user: [],
       invoices: [],
+      sInvoice: false,
     }
   },
   async created() {
@@ -18,15 +19,33 @@ export default {
   },
   methods: {
     ...mapActions(['fetchSession', 'fetchUserOrders', 'fetchUserInvoices']),
+    showInvoice() {
+      this.sInvoice = !this.sInvoice
+    },
   },
 }
 </script>
 
 <template lang="pug">
 div
-  div ORDERS
-    div {{orders}}  
-  div INVOICES
-    div {{invoices}}
+  //- h3 ORDERS
+  //-   div {{orders}}  
+  //- h3 INVOICES
+  //-   div {{invoices}}
+
+
+  .container
+     .row
+      .col(v-for="order in orders")
+        h3 {{ order.product.name }}
+        //- button(@click="showInvoice") Show Invoice
+        router-link(:to="`/order/invoice/${order.invoice._id}`") Invoice
+        //- h3(v-if="sInvoice") {{order.invoice}}
+        button Leave A Review
+        //- h5 Product Price: 
+        //-   p {{ product.price }} €
+        //- router-link(:to="`/edit-products/${product._id}`") Edit Product
+        //- //- button.btn.btn-primary(href=`/edit-products/${product._id}`) Edit Product
+        //- button.btn.btn-primary(@click='deleteProd(product._id)') Delete Product
     
 </template>

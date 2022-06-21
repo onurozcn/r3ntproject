@@ -5,7 +5,7 @@ const router = express.Router()
 
 const Invoice = require('../models/invoice')
 const Order = require('../models/order')
-// const Product = require('../models/product')
+const Product = require('../models/product')
 
 router.get('/', async function (req, res) {
   const invoices = await Invoice.find({})
@@ -16,9 +16,17 @@ router.get('/:id', async function (req, res) {
   const invoices = await Invoice.find({ userId: req.user.id })
   res.send(invoices)
 })
+router.get('/user-invoice/:id', async function (req, res) {
+  console.log("USER INVOICE ID : ")
+  console.log(req.params.id)
+  const invoice = await Invoice.findById(req.params.id)
+  console.log("INVOICE : ")
+  console.log(invoice)
+  res.send(invoice)
+})
 
 router.post('/', async function (req, res) {
-  console.log(req.body)
+  // console.log(req.body)
   const { user, product } = req.body
   if (!user || !product) {
     res
@@ -42,7 +50,9 @@ router.post('/', async function (req, res) {
     invoice,
     user,
   })
-  
+ await Product.findByIdAndUpdate(product, {
+    amount: product.amount-1
+  })
   // Product.setAmount(product)
   // console.log(product)
   console.log('ORDER CREATED')
@@ -55,9 +65,9 @@ router.get('/user/:id/', async function (req, res) {
     res.sendStatus(404)
     return
   }
-  console.log('USER ORDERS')
-  console.log(invoices)
-  console.log('END')
+  // console.log('USER ORDERS')
+  // console.log(invoices)
+  // console.log('END')
   res.send(invoices)
 })
 

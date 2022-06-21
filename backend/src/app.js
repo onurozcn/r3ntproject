@@ -60,7 +60,7 @@ app.use(
     secret: ['thisisnotasupersecuresecretsecret', 'thisisanothersupernotsosecretsecret'],
     saveUninitialized: false,
     resave: false,
-    store: MongoStore.create({ clientPromise, stringify: false}),   
+    store: MongoStore.create({ clientPromise, stringify: false }),
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',

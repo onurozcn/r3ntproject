@@ -30,16 +30,12 @@ const store = new Vuex.Store({
     liveStreams: [],
     liveStreamMessages: [],
   },
-  // getters: {
-  //   user: function (state) {
-  //     return `${state.user}`
-  //   },
-  // },
   mutations: {
     [mutations.INCREMENT_COUNT](state) {
       state.count++
     },
     [mutations.SET_USER](state, user) {
+      // console.log("USERRRRRR : " + user)
       state.user = user
     },
     [mutations.SET_PRODUCT](state, product) {
@@ -79,17 +75,35 @@ const store = new Vuex.Store({
       const userInvoices = await axios.get(`/api/invoices/user/${id}`)
       return userInvoices.data
     },
+    async fetchCompanyProducts(store, id) {
+      console.log('FETCH COMPANY PRODUCT PASSING A USER ID : ' + id)
+      const companyProducts = await axios.get(`/api/products/company/${id}`)
+      return companyProducts.data
+    },
+    async fetchInvoice(store, id) {
+      const invoice = await axios.get(`/api/invoices/user-invoice/${id}`)
+      return invoice.data
+    },
     async fetchProducts() {
       const productsRequest = await axios.get('/api/products')
       return productsRequest.data
     },
     async fetchProduct(store, id) {
       const productRequest = await axios.get(`/api/products/${id}`)
+      console.log(productRequest)
       return productRequest.data
+    },
+    // ---------------------------------------
+    async editProduct(store, product) {
+      console.log('PRODUCT CHANGES : ' + product + ' PRODUCT ID  : ' + product.id)
+      await axios.patch(`/api/products/update/${product.id}`, product)
+    },
+    async deleteProduct(store, id) {
+      return await axios.delete(`/api/products/${id}`)
     },
     async fetchSession({ commit }) {
       const user = await axios.get('/api/account/session')
-      console.log(user.data._id)
+      // console.log(user.data._id)
       commit(mutations.SET_USER, user.data || null)
       return user.data
     },

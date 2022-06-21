@@ -5,14 +5,17 @@ const orderSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
+    autopopulate: true,
   },
   invoice: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Invoice',
+    autopopulate: true,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    autopopulate: true,
   },
 })
 
