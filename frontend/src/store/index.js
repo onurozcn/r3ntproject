@@ -55,10 +55,7 @@ const store = new Vuex.Store({
     incrementCount({ commit }) {
       commit(mutations.INCREMENT_COUNT)
     },
-    async filterProducts(store, fPrice) {
-      const filteredProduct = await axios.get('/api/products/filter', fPrice)
-      return filteredProduct.data
-    },
+    // USER
     async fetchUser(store, id) {
       const userRequest = await axios.get(`/api/users/${id}/json`)
       return userRequest.data
@@ -71,18 +68,59 @@ const store = new Vuex.Store({
       const userOrders = await axios.get(`/api/orders/user/${id}`)
       return userOrders.data
     },
+
+    // INVOICE
+    async createInvoice(store, userId, productName, productPrice) {
+      await axios.post('/api/invoices', userId, productName, productPrice)
+    },
     async fetchUserInvoices(store, id) {
       const userInvoices = await axios.get(`/api/invoices/user/${id}`)
       return userInvoices.data
+    },
+    async fetchInvoice(store, id) {
+      const invoice = await axios.get(`/api/invoices/user-invoice/${id}`)
+      return invoice.data
+    },
+
+    // REVIEW
+
+    async fetchUserReviews(store, id) {
+      const userRevs = await axios.get(`/api/reviews/user/${id}`)
+      return userRevs.data
+    },
+    async fetchProductReview(store, id) {
+      const productRevs = await axios.get(`/api/reviews/product/${id}`)
+      return productRevs.data
+    },
+    async fetchReviews() {
+      await axios.get(`/api/reviews`)
+    },
+    async addReview(store, product, user, review) {
+      axios.post('/', product, user, review)
+    },
+    async deleteAllReviews() {
+      await axios.delete('/api/reviews')
+    },
+    async deleteReview(store, id) {
+      await axios.delete(`/api/reviews/${id}`)
+    },
+
+
+    // ------------------
+  
+  
+
+    // PRODUCT
+    //   ?????????????????????????????
+    async filterProducts(store, fPrice) {
+      const filteredProduct = await axios.get('/api/products/filter', fPrice)
+      return filteredProduct.data
+    // -----------------------------
     },
     async fetchCompanyProducts(store, id) {
       console.log('FETCH COMPANY PRODUCT PASSING A USER ID : ' + id)
       const companyProducts = await axios.get(`/api/products/company/${id}`)
       return companyProducts.data
-    },
-    async fetchInvoice(store, id) {
-      const invoice = await axios.get(`/api/invoices/user-invoice/${id}`)
-      return invoice.data
     },
     async fetchProducts() {
       const productsRequest = await axios.get('/api/products')
@@ -93,7 +131,9 @@ const store = new Vuex.Store({
       console.log(productRequest)
       return productRequest.data
     },
-    // ---------------------------------------
+    async addProduct(store, product) {
+      await axios.post('/api/products', product)
+    },
     async editProduct(store, product) {
       console.log('PRODUCT CHANGES : ' + product + ' PRODUCT ID  : ' + product.id)
       await axios.patch(`/api/products/update/${product.id}`, product)
@@ -101,6 +141,7 @@ const store = new Vuex.Store({
     async deleteProduct(store, id) {
       return await axios.delete(`/api/products/${id}`)
     },
+
     async fetchSession({ commit }) {
       const user = await axios.get('/api/account/session')
       // console.log(user.data._id)
@@ -118,12 +159,6 @@ const store = new Vuex.Store({
     },
     async register(store, user) {
       return axios.post('/api/account', user)
-    },
-    async addProduct(store, product) {
-      await axios.post('/api/products', product)
-    },
-    async createInvoice(store, userId, productName, productPrice) {
-      await axios.post('/api/invoices', userId, productName, productPrice)
     },
     async logout({ commit }) {
       await axios.delete('/api/account/session')

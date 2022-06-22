@@ -44,7 +44,7 @@ router.get('/filter', async (req, res) => {
 })
 
 router.patch('/update/:id', async function (req, res) {
-  console.log('PATCH PRODUCTS')
+  // console.log('PATCH PRODUCTS')
   const product = await Product.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     type: req.body.type,
@@ -58,8 +58,8 @@ router.patch('/update/:id', async function (req, res) {
     isAvailable: req.body.isAvailable,
     pickUpPoint: req.body.pickUpPoint,
   })
-  console.log("PATCH")
-  console.log(product)
+  // console.log("PATCH")
+  // console.log(product)
   res.send(product)
 })
 
