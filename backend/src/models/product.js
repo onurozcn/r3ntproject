@@ -50,9 +50,19 @@ const productSchema = new mongoose.Schema({
     type: String,
     trim: true,
   }, // for now it takes string, later on it should take a coordinate or location directly
+  revs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review',
+    autopopulate: true,
+  }]
 })
 
-class Product {}
+class Product {
+  async addRev(rev) {
+    this.revs.push(rev)
+    await this.save()
+  }
+}
 
 productSchema.loadClass(Product)
 productSchema.plugin(autopopulate)
