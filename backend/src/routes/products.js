@@ -4,7 +4,6 @@ const express = require('express')
 const router = express.Router()
 
 const Product = require('../models/product')
-// const User = require('../models/user')
 
 router.get('/', async function (req, res) {
   const products = await Product.find({})
@@ -22,10 +21,7 @@ router.get('/:id', async function (req, res) {
 
   res.send(product)
 })
-// ??????????????????????????????
 router.get('/company/:id', async function (req, res) {
-  // console.log(req.params.id)
-  // const user = await User.findById(req.params.id)
   const companyProducts = await Product.find({ owner : req.params.id })
   if (!companyProducts) {
     res.sendStatus(404)
@@ -42,9 +38,8 @@ router.get('/filter', async (req, res) => {
   console.log(product)
   res.send(product)
 })
-
+// ----------------------
 router.patch('/update/:id', async function (req, res) {
-  // console.log('PATCH PRODUCTS')
   const product = await Product.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     type: req.body.type,
@@ -54,12 +49,9 @@ router.patch('/update/:id', async function (req, res) {
     fuel: req.body.fuel,
     amount: req.body.amount,
     price: req.body.price,
-    // owner: req.params.owner,
     isAvailable: req.body.isAvailable,
     pickUpPoint: req.body.pickUpPoint,
   })
-  // console.log("PATCH")
-  // console.log(product)
   res.send(product)
 })
 
