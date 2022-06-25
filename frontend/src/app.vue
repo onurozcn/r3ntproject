@@ -31,23 +31,23 @@ export default {
     #nav
       nav#sticky-nav.navbar.navbar-expand-lg.bg-light
         .container-fluid
-          a.navbar-brand(href='#') R3NTALS
+          a.navbar-brand(href='/') R3NTALS
           button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
             span.navbar-toggler-icon
           #navbarNav.collapse.navbar-collapse
             ul.navbar-nav.justify-content-end
               li.nav-item
-                router-link.nav-link(v-if="user" to="/profile") Home Page
+                router-link.nav-link(v-if="this.user" to="/profile") Home Page
               li.nav-item
-                router-link.nav-link(v-if="user" to="/order") Orders&Invoices
+                router-link.nav-link(v-if="this.user" to="/order") Orders&Invoices
               li.nav-item
-                router-link.nav-link(v-if="!user" to="/login") Login
+                router-link.nav-link(v-if="!this.user" to="/login") Login
               li.nav-item
-                router-link.nav-link(v-if="!user" to="/register") Register
+                router-link.nav-link(v-if="!this.user" to="/register") Register
               li.nav-item
                 router-link.nav-link(v-if="user && user.isCompany" to="/company-products") Products
               li.nav-item
-                router-link.nav-link(v-if="user && user.isCompany" to="/add-product") Add Product
+                router-link.nav-link(v-if="this.user && this.user.isCompany" to="/add-product") Add Product
               li.nav-item
                 a.nav-link(v-if="user" @click="doLogout" href="#") Logout
                 

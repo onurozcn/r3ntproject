@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Profile from '../views/profile.vue'
+import Homepage from '../views/homepage.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
 import AddProduct from '../views/add-product.vue'
 import CompanyProducts from '../views/company-products.vue'
+import ShowProducts from '../views/show-products'
 // import EditProduct from '../views/edit-product.vue'
 // import HomePage from '../views/home-page.vue'
 
@@ -18,7 +19,7 @@ export default function init(store) {
       {
         path: '/',
         name: 'Homepage',
-        component: Profile,
+        component: Homepage,
       },
       {
         path: '/users/:id',
@@ -41,7 +42,7 @@ export default function init(store) {
         name: 'register',
         component: Register,
         beforeEnter(to, from, next) {
-          if (store.state.user) return next('/profile')
+          if (store.state.user) return next('/homepage')
           return next()
         },
       },
@@ -53,6 +54,11 @@ export default function init(store) {
           if (store.state.product) return next('/')
           return next()
         },
+      },
+      {
+        path: '/show-products',
+        name: 'showProducts',
+        component: ShowProducts,
       },
       {
         path: '/edit-products/:id',
@@ -89,14 +95,14 @@ export default function init(store) {
         name: 'login',
         component: Login,
         beforeEnter(to, from, next) {
-          if (store.state.user) return next('/profile')
+          if (store.state.user) return next('/homepage')
           return next()
         },
       },
       {
-        path: '/profile',
-        name: 'profile',
-        component: Profile,
+        path: '/homepage',
+        name: 'homepage',
+        component: Homepage,
         beforeEnter(to, from, next) {
           if (!store.state.user) return next('/login')
           return next()

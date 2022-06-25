@@ -24,7 +24,9 @@ export default {
 .card-container
   .row
     .col-7
-      h3 {{ invoice }}
+      h3 Invoice for your "{{ invoice.productName }}" rent
+        h5 Amount paid per day : {{ invoice.productPrice }}
+        h5 Invoice address : {{ invoice.user.email }}
     //-   h5 Product Price: {{ product.price }} €
     //-   h5 Gear Type: {{ product.gear }}
     //-   h5 Fuel Type: {{ product.fuel }}

@@ -29,6 +29,7 @@ export default {
     this.gear = product.gear
     this.amount = product.amount
     this.seat = product.seat
+    this.fuel= product.fuel
     this.price = product.price
     this.isAvailable = product.isAvailable
     this.pickUpPoint = product.pickUpPoint

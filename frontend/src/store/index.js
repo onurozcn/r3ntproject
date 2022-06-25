@@ -25,7 +25,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     user: null,
-    product: null,
+    products: null,
     currentLiveStream: null,
     liveStreams: [],
     liveStreamMessages: [],
@@ -35,11 +35,10 @@ const store = new Vuex.Store({
       state.count++
     },
     [mutations.SET_USER](state, user) {
-      // console.log("USERRRRRR : " + user)
       state.user = user
     },
-    [mutations.SET_PRODUCT](state, product) {
-      state.product = product
+    [mutations.SET_PRODUCT](state, products) {
+      state.products = products
     },
     [mutations.SET_LIVE_STREAM](state, live) {
       state.currentLiveStream = live
@@ -96,7 +95,7 @@ const store = new Vuex.Store({
       await axios.get(`/api/reviews`)
     },
     async addReview(store, product, user, review) {
-      axios.post('/', product, user, review)
+      axios.post('/api/reviews', product, user, review)
     },
     async deleteAllReviews() {
       await axios.delete('/api/reviews')
@@ -104,38 +103,31 @@ const store = new Vuex.Store({
     async deleteReview(store, id) {
       await axios.delete(`/api/reviews/${id}`)
     },
-
-
-    // ------------------
-  
-  
-
     // PRODUCT
     //   ?????????????????????????????
     async filterProducts(store, fPrice) {
       const filteredProduct = await axios.get('/api/products/filter', fPrice)
       return filteredProduct.data
     // -----------------------------
+      
     },
     async fetchCompanyProducts(store, id) {
-      console.log('FETCH COMPANY PRODUCT PASSING A USER ID : ' + id)
       const companyProducts = await axios.get(`/api/products/company/${id}`)
       return companyProducts.data
     },
-    async fetchProducts() {
+    async fetchProducts({commit}) {
       const productsRequest = await axios.get('/api/products')
+      commit(mutations.SET_PRODUCT, productsRequest.data)
       return productsRequest.data
     },
     async fetchProduct(store, id) {
       const productRequest = await axios.get(`/api/products/${id}`)
-      console.log(productRequest)
       return productRequest.data
     },
     async addProduct(store, product) {
       await axios.post('/api/products', product)
     },
     async editProduct(store, product) {
-      console.log('PRODUCT CHANGES : ' + product + ' PRODUCT ID  : ' + product.id)
       await axios.patch(`/api/products/update/${product.id}`, product)
     },
     async deleteProduct(store, id) {
@@ -144,7 +136,6 @@ const store = new Vuex.Store({
 
     async fetchSession({ commit }) {
       const user = await axios.get('/api/account/session')
-      // console.log(user.data._id)
       commit(mutations.SET_USER, user.data || null)
       return user.data
     },
@@ -198,5 +189,6 @@ socket.on('new live stream message', message => {
 
 export default async function init() {
   await store.dispatch('fetchSession')
+  await store.dispatch('fetchProducts')
   return store
 }
