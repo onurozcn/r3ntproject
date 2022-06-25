@@ -4,15 +4,16 @@ const express = require('express')
 const router = express.Router()
 
 const Review = require('../models/review')
+const Product = require('../models/product')
 
 router.get('/', async function (req, res) {
   const reviews = await Review.find({})
 
-  res.send(orders)
+  res.send(reviews)
 })
 
 router.get('/product/:product_id', async function (req, res) {
-  const reviews = await Review.findById(req.params.product_id)
+  const reviews = await Review.find({product : req.params.product_id})
 
   if (!reviews) {
     res.sendStatus(404)
@@ -22,7 +23,7 @@ router.get('/product/:product_id', async function (req, res) {
 })
 
 router.get('/user/:user_id/', async function (req, res) {
-  const reviews = await Order.find({ user: req.params.user_id })
+  const reviews = await Review.find({ user: req.params.user_id })
   if (!reviews) {
     res.sendStatus(404)
     return
@@ -31,7 +32,8 @@ router.get('/user/:user_id/', async function (req, res) {
 })
 
 router.post('/', async function (req, res) {
-  const { user, product, review } = req.body
+  console.log(req.body)
+  const { product, user, review } = req.body
 
   if (!product || !user || !review) {
     res
@@ -42,11 +44,16 @@ router.post('/', async function (req, res) {
     return
   }
   const rev = await Review.create({
-    product,
-    user,
+    product: product,
+    user: user,
     review,
   })
-// add this review to Product ?? 
+// add this review to Product 
+  console.log(Product.revs)
+  
+  const pr= await Product.findById(product._id)
+  pr.revs.push(rev)
+  pr.save()
   res.send(rev)
 })
 
