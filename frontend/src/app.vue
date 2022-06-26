@@ -3,21 +3,11 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'App',
-  // data() {
-  //   return {
-  //     user: [],
-  //   }
-  // },
-  // async created() {
-  //   this.user = await this.fetchSession()
-  // },
   methods: {
     ...mapActions(['logout']),
     async doLogout() {
-      // console.log(this.user)
       await this.logout()
-      //this.$router.push('/login')
-      // location.reload()
+      this.$router.push('/login')
     },
   },
   computed: {
@@ -37,7 +27,7 @@ export default {
           #navbarNav.collapse.navbar-collapse
             ul.navbar-nav.justify-content-end
               li.nav-item
-                router-link.nav-link(v-if="this.user" to="/profile") Home Page
+                router-link.nav-link(v-if="this.user" to="/homepage") Home Page
               li.nav-item
                 router-link.nav-link(v-if="this.user" to="/order") Orders&Invoices
               li.nav-item
