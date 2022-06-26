@@ -25,13 +25,13 @@ export default {
     ...mapActions(['addReview', 'fetchUserOrders', 'fetchUserInvoices']),
     async submitRev(prod){
       this.product= prod
-      console.log(this.product)
       await this.addReview({
         product: this.product,
         user : this.user,
         review: this.review,
       })
       this.$router.push(`/products/${this.product._id}`).catch(() => {})
+      window.reload()
     }
 }
 }
