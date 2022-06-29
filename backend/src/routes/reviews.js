@@ -32,7 +32,6 @@ router.get('/user/:user_id/', async function (req, res) {
 })
 
 router.post('/', async function (req, res) {
-  console.log(req.body)
   const { product, user, review } = req.body
 
   if (!product || !user || !review) {
@@ -49,7 +48,6 @@ router.post('/', async function (req, res) {
     review,
   })
 // add this review to Product 
-  console.log(Product.revs)
   
   const pr= await Product.findById(product._id)
   pr.revs.push(rev)

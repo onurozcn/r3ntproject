@@ -9,7 +9,7 @@ export default {
       orders: [],
       invoices: [],
       sInvoice: false,
-      review: '',
+      rev: '',
       product: {},
     }
   },
@@ -25,13 +25,17 @@ export default {
     ...mapActions(['addReview', 'fetchUserOrders', 'fetchUserInvoices']),
     async submitRev(prod){
       this.product= prod
+      console.log(this.review)
       await this.addReview({
         product: this.product,
         user : this.user,
-        review: this.review,
+        review: this.rev,
       })
       this.$router.push(`/products/${this.product._id}`).catch(() => {})
-      window.reload()
+      location.reload()
+    },
+    userInput(event){
+      this.rev = event.target.value
     }
 }
 }
@@ -42,8 +46,8 @@ export default {
     .row
       .col-12.orders(v-for="order in orders")
         h3.order-text Order created for "{{ order.product.name }}". Order ID : {{order._id}}
-        textarea.txtarea(v-model="review" name="review" placeholder="Enter your review")
-        button.button(@click="submitRev(order.product)" value="Submit Review") Submit Review
+        textarea.txtarea(type="text" v-on:input="userInput($event)" placeholder="Enter your review")
+        button.button(@click="submitRev(order.product)") Submit Review
         button
           router-link(:to="`/order/invoice/${order.invoice._id}`") Show Invoice
 </template>
