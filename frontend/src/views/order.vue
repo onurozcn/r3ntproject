@@ -32,7 +32,7 @@ export default {
         review: this.rev,
       })
       this.$router.push(`/products/${this.product._id}`).catch(() => {})
-      location.reload()
+      // location.reload()
     },
     userInput(event){
       this.rev = event.target.value
@@ -44,7 +44,7 @@ export default {
 <template lang="pug">
   .container.all
     .row
-      .col-12.orders(v-for="order in orders")
+      .col-12.orders(v-for="order in orders" :key="order_id")
         h3.order-text Order created for "{{ order.product.name }}". Order ID : {{order._id}}
         textarea.txtarea(type="text" v-on:input="userInput($event)" placeholder="Enter your review")
         button.button(@click="submitRev(order.product)") Submit Review
