@@ -1,5 +1,8 @@
+# Commands to start on workspace startup
+tasks:
+  - init: yarn install
+    command: yarn build
+# Ports to expose on workspace startup
 ports:
-  - name: Web App
-    description: The main application web server
-    port: 3000
-    onOpen: open-browser
+  - port: 8000
+    onOpen: open-preview
