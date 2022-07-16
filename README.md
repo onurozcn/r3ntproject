@@ -1,6 +1,10 @@
 ###### R3ntals (Rent A Car Project)
-
-To build this JavaScript technologies have been used. In backend it has Node.js, Express.js and MongoDB, Mongoose. In frontend it uses Vue.js.
+You can register as a user or a company and login.
+As a company you can add a product, delete it, or edit your products.
+As a user, you can see products, product details page, rent it, you can see your previous orders, can leave a comment to your previous order, and see your invoice.
+Project is created for learning different technologies. 
+To build this JavaScript technologies have been used. In backend it has Node.js, Express.js and MongoDB, Mongoose. In frontend it uses Vue.js. 
+Project also deployed to the Google Cloud.
 
 You can see the [project here](https://frontend-m75thsncmq-ew.a.run.app/)
 
