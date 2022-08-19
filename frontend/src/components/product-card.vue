@@ -14,6 +14,10 @@ export default {
   methods: {
     ...mapActions(['createInvoice']),
     async rent(prod) {
+      if(!this.user){
+        alert("You need to Log-In to rent this car!")
+        location.assign("http://r3ntproject.localhost/login")
+      }
       try {
         await this.createInvoice({
           user: this.user._id,
@@ -33,7 +37,7 @@ export default {
   .card-container
     .row
       .col-5
-        img(src='https://th.bing.com/th/id/R.481249181a9952b4f26e84ac8ca731d5?rik=LADSC%2buUfrk8bQ&riu=http%3a%2f%2feskipaper.com%2fimages%2fbatmobile-1.jpg&ehk=PVKsAAGBELoHEOa4190yuzhh02F%2fMXEvg6pG%2bV1GS18%3d&risl=&pid=ImgRaw&r=0' width='100%' height='100%')
+        img(:src="`${product.photo}`" width='100%' height='100%')
       .col-7
         h3 {{ product.name }}
         h5 Product Price: {{ product.price }} €
@@ -41,7 +45,7 @@ export default {
         h5 Fuel Type: {{ product.fuel }}
         h5 Pick-up Point: {{ product.pickUpPoint }}
         h5 Seats: {{ product.seat}}
-        button.btn.btn-primary(@click="rent(product)") Rent
+        button.btn.btn-primary(v-if=(this.user) @click="rent(product)") Rent
   .row.reviews Reviews
     .col
       #product-reviews(v-for="reviews in product.revs")
