@@ -1,11 +1,13 @@
 <script>
 import Counter from '@/components/counter.vue'
+import ShowProducts from '@/components/all-products.vue'
+
 import { mapActions, mapState } from 'vuex'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Homepage',
-  components: { Counter },
+  components: { Counter, ShowProducts },
   data() {
     return {
       time: new Date(),
@@ -29,9 +31,10 @@ export default {
 
 <template lang="pug">
   .container
-    .container.searchbutton
-          router-link.button(to="/show-products") Show Products
-        
+    //- .container.searchbutton
+    //-       router-link.button(to="/show-products") Show Products
+    ShowProducts
+    
   //- OPEN A LIVE STREAM WITH OTHERS 
 
   //-   div(v-if="liveStreams.length")
