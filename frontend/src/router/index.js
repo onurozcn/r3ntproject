@@ -5,7 +5,7 @@ import Login from '../views/login.vue'
 import Register from '../views/register.vue'
 import AddProduct from '../views/add-product.vue'
 import CompanyProducts from '../views/company-products.vue'
-import ShowProducts from '../views/show-products'
+// import ShowProducts from '../components/all-products'
 // import EditProduct from '../views/edit-product.vue'
 // import HomePage from '../views/home-page.vue'
 
@@ -27,15 +27,12 @@ export default function init(store) {
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/user-detail.vue'),
+        component: () => import('../views/user-detail.vue'),
       },
       {
         path: '/order',
         name: 'UserOrders',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/order.vue'),
+        component: () => import( '../views/order.vue'),
       },
       {
         path: '/register',
@@ -55,18 +52,15 @@ export default function init(store) {
           return next()
         },
       },
-      {
-        path: '/show-products',
-        name: 'showProducts',
-        component: ShowProducts,
-      },
+      // {
+      //   path: '/all-products',
+      //   name: 'showProducts',
+      //   component: ShowProducts,
+      // },
       {
         path: '/edit-products/:id',
         name: 'EditProduct',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/edit-product.vue'),
+        component: () => import('../views/edit-product.vue'),
       },
       {
         path: '/company-products/',
@@ -80,10 +74,7 @@ export default function init(store) {
       {
         path: '/products/:id',
         name: 'ProductDetail',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/product-detail.vue'),
+        component: () => import('../views/product-detail.vue'),
       },
       {
         path: '/order/invoice/:id',
