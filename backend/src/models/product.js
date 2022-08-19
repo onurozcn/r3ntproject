@@ -7,16 +7,16 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  type: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  classy: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+  // type: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
+  // classy: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
   gear: {
     type: String,
     required: true,
@@ -45,11 +45,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
     trim: true,
   },
-  isAvailable: Boolean,
+  // isAvailable: Boolean,
   pickUpPoint: {
     type: String,
     trim: true,
   }, // for now it takes string, later on it should take a coordinate or location directly
+  photo: {
+    type: String,
+    trim: true,
+    required: true,
+  },
   revs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review',
