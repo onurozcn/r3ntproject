@@ -1,11 +1,10 @@
 const express = require('express')
-
 const router = express.Router()
 
+const shopsController = require('../controllers/shopController')
+
 /* GET home page. */
-router.get('/', (req, res) => {
-  res.render('index', { title: 'RENTAL PROJECT' })
-})
+router.get('/', shopsController.getHomePage)
 
 
 module.exports = router

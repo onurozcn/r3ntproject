@@ -1,79 +1,18 @@
-/* eslint-disable func-names */
 const express = require('express')
-
 const router = express.Router()
 
-const Invoice = require('../models/invoice')
-const Order = require('../models/order')
-const Product = require('../models/product')
+const usersController = require('../controllers/userController')
 
-router.get('/', async function (req, res) {
-  const invoices = await Invoice.find({})
-  res.send(invoices)
-})
+router.get('/', usersController.getAllInvoices)
 
-router.get('/:id', async function (req, res) {
-  const invoices = await Invoice.find({ userId: req.user.id })
-  res.send(invoices)
-})
-router.get('/user-invoice/:id', async function (req, res) {
-  console.log("USER INVOICE ID : ")
-  console.log(req.params.id)
-  const invoice = await Invoice.findById(req.params.id)
-  console.log("INVOICE : ")
-  console.log(invoice)
-  res.send(invoice)
-})
+router.get('/:id', usersController.getInvoiceById)
 
-router.post('/', async function (req, res) {
-  // console.log(req.body)
-  const { user, product } = req.body
-  if (!user || !product) {
-    res
-      .send({
-        message: 'Missing fields.',
-      })
-      .status(400)
-    return
-  }
+router.get('/user-invoice/:id', usersController.getUserInvoiceByInvoiceId)
 
-  const invoice = await Invoice.create({
-    user,
-    productName: product.name,
-    productPrice: product.price,
-  })
-  console.log('INVOICE CREATED')
-  // eslint-disable-next-line no-unused-vars
+router.post('/', usersController.createInvoice)
 
-  const order = await Order.create({
-    product,
-    invoice,
-    user,
-  })
- await Product.findByIdAndUpdate(product, {
-    amount: product.amount-1
-  })
-  // Product.setAmount(product)
-  // console.log(product)
-  console.log('ORDER CREATED')
+router.get('/user/:id/', usersController.getUserInvoicesByUserId)
 
-  res.send(invoice)
-})
-router.get('/user/:id/', async function (req, res) {
-  const invoices = await Invoice.find({ user: req.params.id })
-  if (!invoices) {
-    res.sendStatus(404)
-    return
-  }
-  // console.log('USER ORDERS')
-  // console.log(invoices)
-  // console.log('END')
-  res.send(invoices)
-})
-
-router.delete('/', async function (req, res) {
-  await Invoice.deleteMany()
-  res.sendStatus(200)
-})
+router.delete('/', usersController.deleteAllInvoices)
 
 module.exports = router
