@@ -7,14 +7,15 @@ export default {
   data() {
     return {
       name: '',
-      type: '',
-      classy: '',
+      // type: '',
+      // classy: '',
       gear: '',
       seat: 0,
       fuel: '',
       amount: 0,
       price: 0.0,
-      isAvailable: false,
+      // isAvailable: false,
+      photo: '',
       pickUpPoint: '',
       owner: '',
       backendError: null,
@@ -31,14 +32,15 @@ export default {
       try {
         await this.addProduct({
           name: this.name,
-          type: this.type,
-          classy: this.classy,
+          // type: this.type,
+          // classy: this.classy,
           gear: this.gear,
           seat: this.seat,
           fuel: this.fuel,
           amount: this.amount,
           price: this.price,
-          isAvailable: this.isAvailable,
+          // isAvailable: this.isAvailable,
+          photo: this.photo,
           pickUpPoint: this.pickUpPoint,
           owner: this.user,
         })
@@ -58,10 +60,10 @@ export default {
       h1 Create a new product
       label(for="name") Product Name:&nbsp;
         input(v-model="name" id="name" type="text" placeholder="Product name" required)
-      label(for="type") Product Type:&nbsp;
-        input(v-model="type" id="type" type="text" placeholder="Product type" required)
-      label(for="classy") Product Class:&nbsp;
-        input(v-model="classy" id="classy" type="text" placeholder="Product class" required)
+      //- label(for="type") Product Type:&nbsp;
+      //-   input(v-model="type" id="type" type="text" placeholder="Product type" required)
+      //- label(for="classy") Product Class:&nbsp;
+      //-   input(v-model="classy" id="classy" type="text" placeholder="Product class" required)
       label(for="gear") Gear Type:&nbsp;
         input(v-model="gear" id="gear" type="text" placeholder="Gear type" required)
 
@@ -73,8 +75,10 @@ export default {
         input(v-model="amount" id="amount" type="number" min="0" placeholder="Amount" required)
       label(for="price") Price per Day:&nbsp;
         input(v-model="price" id="price" type="number" min="0" placeholder="Price per day" required)
-      label(for="isAvailable") Availability:&nbsp;
-        input(v-model="isAvailable" id="isAvailable" type="text" placeholder="Is available?" required)
+      //- label(for="isAvailable") Availability:&nbsp;
+      //-   input(v-model="isAvailable" id="isAvailable" type="text" placeholder="Is available?" required)
+      label(for="photo") Photo:&nbsp;
+        input(v-model="photo" id="photo" type="string" placeholder="Photo URL" required)
       label(for="pickUpPoint") Pick up Point:&nbsp;
         input(v-model="pickUpPoint" id="pickUpPoint" type="text" placeholder="Pick up point" required)
       input.button(type="submit" value="Add Product")
