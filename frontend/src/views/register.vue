@@ -2,7 +2,6 @@
 import { mapActions } from 'vuex'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'register',
   data() {
     return {
@@ -39,28 +38,40 @@ export default {
 </script>
 
 <template lang="pug">
-.register
-    form( @submit="submitLogin")
-      h1 Create a new account
-      label(for="name") Name:&nbsp;
-        input(v-model="name" id="name" type="text" placeholder="Your name" required)
-      label(for="age") Age:&nbsp;
-        input(v-model="age" id="age" type="number" placeholder="Your age" required)
-      label(for="email") Email:&nbsp;
-        input(v-model="email" id="email" type="email" placeholder="Your email" required)
-      label(for="password") Password:&nbsp;
-        input(v-model="password" id="password" type="password" placeholder="Your password" required)
-      label(for="isCompany") Company:&nbsp;
-        input(type="checkbox" v-on:click ="isCompany=true")
-      input(type="submit" value="Register")
-
-    div(v-if="backendError") {{ backendError }}
-    div Already have an account? <router-link to="/login">Log in</router-link>
+.container
+  .row
+    .col-sm-9.col-md-7.col-lg-5.mx-auto
+      .card.border-0.shadow.rounded-3.my-5
+        .card-body.p-4.p-sm-5
+          h5.card-title.text-center.mb-5.fw-light.fs-5 Register &nbsp;
+              form( @submit="submitLogin")
+                .form-floating.mb-3
+                  label Register as a Company   
+                    input(type="checkbox" v-on:click ="isCompany=false")
+                .form-floating.mb-3
+                  label(for='isCompany') Register as a User   
+                    input(type="checkbox" v-on:click ="isCompany=true")
+                .form-floating.mb-3
+                  input.form-control(v-model="name" type="text" placeholder="Your name" required)
+                  label(for='name') Your Name 
+                .form-floating.mb-3
+                  input.form-control(v-model="email" type="email" placeholder="Your email" required)
+                  label(for='email') Your Email
+                .form-floating.mb-3
+                  input.form-control(v-model="password" type="password" placeholder="Your password" required)
+                  label(for='password') Password
+                .form-floating.mb-3
+                  label(for='isCompany') 
+                  | Register as a company   
+                  input(type="checkbox" v-on:click ="isCompany=true")
+                .d-grid
+                  button.btn.btn-primary.btn-login.text-uppercase.fw-bold(type='submit') 
+                    | Register
+              div(v-if="backendError") {{ backendError }}
+              div You have an account? <router-link to="/login">Login</router-link>
+      
 </template>
 
 <style lang="scss" scoped>
-label {
-  display: block;
-  margin: 1rem 0;
-}
+
 </style>

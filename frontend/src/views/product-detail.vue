@@ -1,11 +1,10 @@
 <script>
-import Counter from '@/components/counter.vue'
 import ProductCard from '@/components/product-card.vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'ProductDetail',
-  components: { ProductCard, Counter },
+  components: { ProductCard },
   data() {
     return {
       product: null,
@@ -23,5 +22,5 @@ export default {
 <template lang="pug">
   .about
     ProductCard(:product="product" v-if="product")
-    Counter
+    
 </template>

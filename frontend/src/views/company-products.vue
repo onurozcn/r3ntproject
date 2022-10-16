@@ -53,7 +53,7 @@ export default {
   color: rgb(98, 127, 139);
   font-size: 15px;
   font-weight: 100;
-  background-color: rgba(248, 245, 245, 0.25);
+  background-color: #dfe8f1;
   border-radius: 16px;
   margin: 15px 15px;
   box-shadow: 3px 3px rgba(0.1, 0.1, 0.1, 0.1);

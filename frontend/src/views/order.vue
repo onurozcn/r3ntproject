@@ -1,5 +1,4 @@
 <script>
-// import InvoiceCard from '@/components/invoice-card.vue'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -8,7 +7,6 @@ export default {
     return {
       orders: [],
       invoices: [],
-      sInvoice: false,
       rev: '',
       product: {},
     }
@@ -31,8 +29,7 @@ export default {
         user : this.user,
         review: this.rev,
       })
-      this.$router.push(`/products/${this.product._id}`).catch(() => {})
-      // location.reload()
+      this.$router.push(`/`).catch(() => {})
     },
     userInput(event){
       this.rev = event.target.value
@@ -42,34 +39,40 @@ export default {
 </script>
 
 <template lang="pug">
-  .container.all
-    .row
-      .col-12.orders(v-for="order in orders" :key="order_id")
-        h3.order-text Order created for "{{ order.product.name }}". Order ID : {{order._id}}
-        textarea.txtarea(type="text" v-on:input="userInput($event)" placeholder="Enter your review")
-        button.button(@click="submitRev(order.product)") Submit Review
-        button
-          router-link(:to="`/order/invoice/${order.invoice._id}`") Show Invoice
+.card
+  .card-body.m-4(v-for="order in orders")
+    .container.mb-5.mt-3
+      .row.d-flex.align-items-baseline
+        .col-xl-9
+          p(style='color: #7e8d9f;font-size: 20px;')
+            | Invoice ID:  
+            router-link(:to="`/order/invoice/${order.invoice._id}`") 
+              strong {{order.invoice._id}}
+        .row
+          .col-xl-8
+            ul.list-unstyled
+              li.text-muted
+              span.fw-bold Order-ID:
+              | {{order._id}}
+              li.text-muted
+                | To: 
+                span(style='color:#8f8061 ;') {{order.user.name}}
+              li.text-muted {{order.user.email}}
+          .col-md-2.mb-4.mb-md-0
+            .bg-image.ripple.rounded-5.mb-4.overflow-hidden.d-block(data-ripple-color='light')
+              img.w-100(:src="`${order.product.photo}`" height='100px' :alt="`${order.product.name}`")
+              p.fw-bold {{order.product.name}}
+              p.text-black.float-start
+                span.text-black.me-3 Total Amount:
+                span(style='font-size: 25px;') €{{order.product.price*1.15}}
+        .row
+          textarea.txtarea(type="text" v-on:input="userInput($event)" :placeholder="`Enter your review for ${order.product.name}, with order number ${order._id}`")
+          button.button(@click="submitRev(order.product)") Submit Review
+
 </template>
 <style scoped>
-* {
-  margin: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-.all{
-  display: block;
-}
-.orders{
-  display: flex;
-  padding: 5px 5px;
-  color: rgb(98, 127, 139);
-  font-size: 15px;
-  font-weight: 100;
-  background-color: rgba(248, 245, 245, 0.25);
-  border-radius: 16px;
-  margin: 15px 15px;
-  box-shadow: 3px 3px rgba(0.1, 0.1, 0.1, 0.1);
-}
 
+.card-body{
+  border: solid 3px blue;
+}
 </style>

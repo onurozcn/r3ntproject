@@ -2,19 +2,14 @@
 import { mapActions } from 'vuex'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'add-product',
   data() {
     return {
       name: '',
-      // type: '',
-      // classy: '',
       gear: '',
-      seat: 0,
       fuel: '',
       amount: 0,
       price: 0.0,
-      // isAvailable: false,
       photo: '',
       pickUpPoint: '',
       owner: '',
@@ -32,14 +27,11 @@ export default {
       try {
         await this.addProduct({
           name: this.name,
-          // type: this.type,
-          // classy: this.classy,
+          classy: this.classy,
           gear: this.gear,
-          seat: this.seat,
           fuel: this.fuel,
           amount: this.amount,
           price: this.price,
-          // isAvailable: this.isAvailable,
           photo: this.photo,
           pickUpPoint: this.pickUpPoint,
           owner: this.user,
@@ -55,45 +47,58 @@ export default {
 </script>
 
 <template lang="pug">
-.product
-    form( @submit="submitProduct")
-      h1 Create a new product
-      label(for="name") Product Name:&nbsp;
-        input(v-model="name" id="name" type="text" placeholder="Product name" required)
-      //- label(for="type") Product Type:&nbsp;
-      //-   input(v-model="type" id="type" type="text" placeholder="Product type" required)
-      //- label(for="classy") Product Class:&nbsp;
-      //-   input(v-model="classy" id="classy" type="text" placeholder="Product class" required)
-      label(for="gear") Gear Type:&nbsp;
-        input(v-model="gear" id="gear" type="text" placeholder="Gear type" required)
+.card-body.p-4.p-sm-5
+  form( @submit="submitProduct")
+    h3 Create a new product
+    .row
+      .col
+        label(for="name") Product name
+        input.form-control(v-model="name" type='text' placeholder='e.g Tesla Model S' required)
+      .col
+        .form-group
+          label(for="fuel") Fuel type
+          select.form-control(v-model="fuel" id="fuel" name="fuel")
+              option(value="" selected disabled hidden) Select Fuel Type
+              option(value="Diesel" ) Diesel
+              option(value="Gasoline" ) Gas
+              option(value="Electric" ) Electric
+              option(value="Hybrid" ) Hybrid
+    .row
+      .col
+        .form-group
+          label(for="gear") Gear type
+          select.form-control(v-model="gear" id="gear" name="gear")
+            option(value="" selected disabled hidden) Select Gear Type
+            option(value="Automatic") Automatic
+            option(value="Manuel") Manuel
+      .col
+        label(for="amount") Product amount
+        input.form-control(v-model="amount" type="number" placeholder="e.g 5" required)
+    .row
+      .col
+        label(for="price") Price per day in €
+        input.form-control(v-model="price" type="number" placeholder="e.g 185" required)
+      .col
+        label(for="pickUpPoint") Pick-up point
+        input.form-control(v-model="pickUpPoint" type="text" placeholder="e.g Berlin" required)
+    .row
+      .col
+        label(for="photo") Photo URL
+        input.form-control(v-model="photo" type="string" placeholder="URL here" required)
+    .d-grid
+      button.btn.btn-primary.btn-login.text-uppercase.fw-bold(type='submit')
+        | Add Product
+  div(v-if="backendError") {{ backendError }}
 
-      label(for="seat") Number of Seats:&nbsp;
-        input(v-model="seat" id="seat" type="number" min="0" placeholder="Number of seats" required)
-      label(for="fuel") Fuel Type:&nbsp;
-        input(v-model="fuel" id="fuel" type="text" placeholder="Fuel type" required)
-      label(for="amount") Amount:&nbsp;
-        input(v-model="amount" id="amount" type="number" min="0" placeholder="Amount" required)
-      label(for="price") Price per Day:&nbsp;
-        input(v-model="price" id="price" type="number" min="0" placeholder="Price per day" required)
-      //- label(for="isAvailable") Availability:&nbsp;
-      //-   input(v-model="isAvailable" id="isAvailable" type="text" placeholder="Is available?" required)
-      label(for="photo") Photo:&nbsp;
-        input(v-model="photo" id="photo" type="string" placeholder="Photo URL" required)
-      label(for="pickUpPoint") Pick up Point:&nbsp;
-        input(v-model="pickUpPoint" id="pickUpPoint" type="text" placeholder="Pick up point" required)
-      input.button(type="submit" value="Add Product")
-    div(v-if="backendError") {{ backendError }}
 </template>
 
 <style lang="scss" scoped>
-label {
-  display: block;
-  margin: 1rem 0;
+h3{
+  color: blue;
+  text-align: center;
 }
-.button {
-  margin-bottom: 50px;
+.row{
+  padding-bottom: 0.5em;
 }
-.product {
-  padding: 20px;
-}
+
 </style>
