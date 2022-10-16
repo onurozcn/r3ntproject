@@ -8,19 +8,16 @@ const MongoStore = require('connect-mongo')
 const passport = require('passport')
 const mongoose = require('mongoose')
 const cors = require('cors')
+require('./database-connection')
 
 const User = require('./models/user')
-
-require('./database-connection')
-const socketService = require('./socket-service')
 
 const clientPromise = mongoose.connection.then(connection => connection.getClient())
 
 const indexRouter = require('./routes/index')
+const accountRouter = require('./routes/account')
 const usersRouter = require('./routes/users')
 const productsRouter = require('./routes/products')
-const companyRouter = require('./routes/companies')
-const accountRouter = require('./routes/account')
 const orderRouter = require('./routes/orders')
 const invoiceRouter = require('./routes/invoices')
 const reviewRouter = require('./routes/reviews')
@@ -34,18 +31,7 @@ app.use(
   })
 )
 
-if (app.get('env') == 'development') {
-  /* eslint-disable-next-line */
-  app.use(require('connect-livereload')())
-  /* eslint-disable-next-line */
-  require('livereload')
-    .createServer({ extraExts: ['pug'] })
-    .watch([`${__dirname}/public`, `${__dirname}/views`])
-}
-
 app.set('trust proxy', 1)
-
-app.set('io', socketService)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -81,35 +67,23 @@ passport.deserializeUser(User.deserializeUser())
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/api', (req, res, next) => {
-  req.session.viewCount = req.session.viewCount || 0
-  // eslint-disable-next-line no-plusplus
-  req.session.viewCount++
-  next()
-})
-
 app.use('/api/', indexRouter)
 app.use('/api/account', accountRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/products', productsRouter)
-app.use('/api/companies', companyRouter)
 app.use('/api/orders', orderRouter)
 app.use('/api/invoices', invoiceRouter)
 app.use('/api/reviews', reviewRouter)
 
-// catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404))
 })
 
 // error handler
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-  // render the error page
   res.status(err.status || 500)
 
   res.send({

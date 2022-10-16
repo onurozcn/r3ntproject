@@ -1,23 +1,22 @@
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'all-products',
-  // data() {
-  //   return {
-  //       search: false,
-  //   }
-  // },
-//   async created() {
-//     this.products = await this.fetchProducts()
-//   },
+  data() {
+    return {
+      price: null,
+      fuel: '',
+      gear: '',
+    }
+  },
   methods: {
-    ...mapActions(['createInvoice']),
-  
+    ...mapActions(['createInvoice', 'filterProducts', 'setFilteredProducts']),
+    ...mapMutations(['setFilteredProducts']),
     async rent(prod) {
-      if(!this.user){
-        alert("You need to Log-In to rent this car!")
-        location.assign("http://r3ntproject.localhost/login")
+      if (!this.user) {
+        alert('You need to Log-In to rent this car!')
+        location.assign('http://r3ntproject.localhost/login')
       }
       try {
         await this.createInvoice({
@@ -30,61 +29,76 @@ export default {
         this.backendError = e.response.data.message
       }
     },
-    async searchFilter(pric){
-      this.products = this.products.filter(prod => prod.price <= pric)
-      
-    }
-   
+    async searchFilter() {
+      const filteredProducts = await this.filterProducts({
+        price: this.price,
+        fuel: this.fuel,
+        gear: this.gear,
+      })
+      this.setFilteredProducts(filteredProducts)
+      this.$refs.anyName.reset()
+    },
   },
-    computed: {
-    ...mapState([ 'user', 'products']),
+  computed: {
+    ...mapState(['user', 'products']),
   },
-
 }
 </script>
 
 <template lang="pug">
-.container
-    .container.all
-        .row
-            //- MAKE FILTERING WORK 
-            .col-2
-                form(@submit="searchFilter(priceRange)")
-                  div
-                  label(for="priceRange") Price Range up to :&nbsp;
-                      input(v-model="priceRange" id="priceRange" type="number" placeholder="Max Price")
-                  div
-                  input(type="submit" value="Search")
-            //-     ----------------------------------   
-            .col-10
-                .container
-                    .row.prodLayout
-                        .col-5.container.card-container(v-for="pr in this.products")
-                            .row
-                                .col-6
-                                img(:src="`${pr.photo}`" width='100%' height='100%')
-                                .col-6
-                                
-                                router-link(:to="`/products/${pr._id}`")
-                                    h3 {{ pr.name }}
-                                h5 Product Price: 
-                                    p {{ pr.price }} €
-                                button.btn.btn-primary(@click="rent(pr)") Rent       
+  .row
+    .col-2
+      form(@submit.prevent="searchFilter")           
+        .form-group.mt-1
+          label(for="price") Price up to
+          input.form-control(v-model="price" id="priceRange" type="number" min=0 step=1 placeholder="Max Price")
+        .form-group.mt-1
+          label(for="fuel") Fuel Type
+          select.form-control(v-model="fuel" id="fuel" name="fuel")
+              option(value="" selected) Select
+              option(value="Diesel" ) Diesel
+              option(value="Gasoline" ) Gas
+              option(value="Electric" ) Electric
+              option(value="Hybrid" ) Hybrid
+        .form-group.mt-1
+          label(for="gear") Gear Type
+          select.form-control(v-model="gear" id="gear" name="gear")
+            option(value="" selected) Select
+            option(value="Automatic") Auto
+            option(value="Manuel") Manuel
+        button.btn.btn-primary.mt-2(type='submit') Search
+    .col-10
+      .row     
+        .card(v-for="pr in this.products" v-if="pr.amount>0" style='width: 15rem; margin: 0.2em')
+          .col 
+            img.card-img-top.pt-1(:src="`${pr.photo}`" :alt="`${pr.name}`")
+          .col
+            .card-body
+              router-link(:to="`/products/${pr._id}`")
+                h6.card-title {{ pr.name }}
+              h6.card-text Price : {{ pr.price }} € 
+              h6.card-text Gear  : {{ pr.gear }} 
+              h6.card-text Fuel  : {{ pr.fuel }} 
+              button.btn.btn-primary(@click="rent(pr)") Rent Now
 </template>
 <style scoped>
-.all{
-  display: block;
+.card {
+  background-color: #dfe8f1;
 }
-.card-container{
-  display: inline-block;
-  padding: 5px 7px;
-  color: rgb(98, 127, 139);
-  font-size: 15px;
-  font-weight: 100;
-  background-color: rgba(248, 245, 245, 0.25);
-  border-radius: 16px;
-  margin: 15px 15px;
-  box-shadow: 3px 3px rgba(0.1, 0.1, 0.1, 0.1);
+.pagination {
+  margin-top: 2rem;
   text-align: center;
+}
+.pagination a {
+  text-decoration: none;
+  color: blue;
+  padding: 0.5rem;
+  border: 1px solid #00695c;
+  margin: 0 1rem;
+}
+.pagination a:hover,
+.pagination a:active {
+  background: #00695c;
+  color: white;
 }
 </style>

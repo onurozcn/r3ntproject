@@ -1,52 +1,58 @@
+const nodemailer = require('nodemailer')
+const sendgridTransport = require('nodemailer-sendgrid-transport')
 
 const User = require('../models/user')
 const Order = require('../models/order')
 const Invoice = require('../models/invoice')
 const Product = require('../models/product')
 
-exports.getAllUsers = async function (req, res, next) {
-  try{
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key: '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',
+    },
+  })
+)
+
+exports.getAllUsers = async (req, res, next) => {
+  try {
     const users = await User.find({})
     res.send(users)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
-  }  
+  }
 }
 
-exports.getUserById = async function (req, res, next) {
-  try{
+exports.getUserById = async (req, res, next) => {
+  try {
     const user = await User.findById(req.params.id)
     if (!user) {
       res.sendStatus(404)
       return
     }
     res.send(user)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.updateUserById = async function (req, res, next) {
-  try{
+exports.updateUserById = async (req, res, next) => {
+  try {
     const user = await User.findByIdAndUpdate(req.params.id, {
       name: req.body.name,
-      age: req.body.age,
       email: req.body.email,
       isCompany: req.body.isCompany,
     })
     res.send(user)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.createUser = async function (req, res, next) {
-  const { name, email, age, isCompany} = req.body
-  try{
-    if (!email || !name || !age || !isCompany) {
+exports.createUser = async (req, res, next) => {
+  const { name, email, isCompany } = req.body
+  try {
+    if (!email || !name || !isCompany) {
       res
         .send({
           message: 'Missing fields.',
@@ -57,78 +63,71 @@ exports.createUser = async function (req, res, next) {
     const user = await User.create({
       name,
       email,
-      age,
       isCompany,
     })
     res.send(user)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.deleteUserById = async function (req, res, next) {
-  try{
+exports.deleteUserById = async (req, res, next) => {
+  try {
     await User.findByIdAndDelete(req.params.id)
     res.sendStatus(200)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.deleteAllUsers =async function (req, res, next) {
-  try{
+exports.deleteAllUsers = async (req, res, next) => {
+  try {
     await User.deleteMany()
     res.sendStatus(200)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getAllOrders = async function (req, res, next) {
-  try{
+exports.getAllOrders = async (req, res, next) => {
+  try {
     const orders = await Order.find({})
     res.send(orders)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getOrderById = async function (req, res, next) {
-  try{
+exports.getOrderById = async (req, res, next) => {
+  try {
     const order = await Order.findById(req.params.id)
     if (!order) {
       res.sendStatus(404)
       return
     }
     res.send(order)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getUserOrdersByUserId = async function (req, res, next) {
-  try{
+exports.getUserOrdersByUserId = async (req, res, next) => {
+  try {
     const orders = await Order.find({ user: req.params.id })
     if (!orders) {
       res.sendStatus(404)
       return
     }
     res.send(orders)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.createOrder = async function (req, res, next) {
+exports.createOrder = async (req, res, next) => {
   const { product, invoice, user } = req.body
 
-  try{
+  try {
     if (!product || !invoice || !user) {
       res
         .send({
@@ -143,55 +142,50 @@ exports.createOrder = async function (req, res, next) {
       user,
     })
     res.send(order)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.deleteAllOrders = async function (req, res, next) {
-  try{
+exports.deleteAllOrders = async (req, res, next) => {
+  try {
     await Order.deleteMany()
     res.sendStatus(200)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getAllInvoices = async function (req, res, next) {
-  try{
+exports.getAllInvoices = async (req, res, next) => {
+  try {
     const invoices = await Invoice.find({})
     res.send(invoices)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getInvoiceById = async function (req, res, next) {
-  try{
+exports.getInvoiceById = async (req, res, next) => {
+  try {
     const invoices = await Invoice.find({ userId: req.user.id })
     res.send(invoices)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getUserInvoiceByInvoiceId = async function (req, res, next) {
-  try{
+exports.getUserInvoiceByInvoiceId = async (req, res, next) => {
+  try {
     const invoice = await Invoice.findById(req.params.id)
     res.send(invoice)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.createInvoice = async function (req, res, next) {
+exports.createInvoice = async (req, res, next) => {
   const { user, product } = req.body
-  try{
+  try {
     if (!user || !product) {
       res
         .send({
@@ -201,27 +195,37 @@ exports.createInvoice = async function (req, res, next) {
       return
     }
 
+    await Product.findByIdAndUpdate(product, {
+      amount: product.amount - 1,
+    }).then(() => {
+      if (product.amount === 0) {
+        product.isAvailable = false
+      }
+    })
+
     const invoice = await Invoice.create({
       user,
       productName: product.name,
       productPrice: product.price,
     })
-    const order = await Order.create({
+    await Order.create({
       product,
       invoice,
       user,
     })
-  await Product.findByIdAndUpdate(product, {
-      amount: product.amount-1
-    })
     res.send(invoice)
-  }
-  catch (e) {
+    transporter.sendMail({
+      to: user.email,
+      from: 'onurozcn182@gmail.com',
+      subject: 'Sign-up succeeded to R3ntals',
+      html: `<h1> Dear ${user.name}, we have recieved your payment. Your order has created. You can find your invoice on "Orders&Invoices" section</h1>`,
+    })
+  } catch (e) {
     next(e)
   }
 }
 
-exports.getUserInvoicesByUserId = async function (req, res, next) {
+exports.getUserInvoicesByUserId = async (req, res, next) => {
   try {
     const invoices = await Invoice.find({ user: req.params.id })
     if (!invoices) {
@@ -229,18 +233,16 @@ exports.getUserInvoicesByUserId = async function (req, res, next) {
       return
     }
     res.send(invoices)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
 
-exports.deleteAllInvoices = async function (req, res, next) {
+exports.deleteAllInvoices = async (req, res, next) => {
   try {
     await Invoice.deleteMany()
     res.sendStatus(200)
-  }
-  catch (e) {
+  } catch (e) {
     next(e)
   }
 }
