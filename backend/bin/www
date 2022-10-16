@@ -1,33 +1,13 @@
 #!/usr/bin/env node
-
-/* eslint-disable */
-
-/**
- * Module dependencies.
- */
-
-const app = require('../src/app')
 const debug = require('debug')('r3ntProject:server')
 const http = require('http')
+const app = require('../src/app')
 
-/**
- * Get port from environment and store in Express.
- */
 
 const port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
 
-/**
- * Create HTTP server.
- */
-
 const server = http.createServer(app)
-
-app.get('io').attach(server)
-
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port)
 server.on('error', onError)
@@ -38,16 +18,16 @@ server.on('listening', onListening)
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10)
+  const portNum = parseInt(val, 10)
 
-  if (isNaN(port)) {
+  if (isNaN(portNum)) {
     // named pipe
     return val
   }
 
-  if (port >= 0) {
+  if (portNum >= 0) {
     // port number
-    return port
+    return portNum
   }
 
   return false
