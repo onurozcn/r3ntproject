@@ -14,44 +14,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  age: {
-    type: Number,
-    trim: true,
-  },
   isCompany: {
     type: Boolean,
   },
 })
-  
 
-class User {
-  
-  // buy(product) {
-   
-  // }
-  
-
-  // addBalance(amount) {
-  //   this.balance += amount
-  // }
-}
-
-  // rent(product) {
-      
-  // }
-
-  // previousRents() {
-  // list the previous loans
-  // }
-
-  // makeAreview(product){
-  // }
-
-
-
-
- 
-userSchema.loadClass(User)
 userSchema.plugin(autopopulate)
 
 userSchema.plugin(passportLocalMongoose, {
