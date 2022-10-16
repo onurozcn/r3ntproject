@@ -4,7 +4,7 @@ export default {
   name: 'InvoiceCard',
   data() {
     return {
-      invoice: null,
+      invoice: {},
     }
   },
   async created() {
@@ -13,38 +13,51 @@ export default {
   methods: {
     ...mapActions(['fetchInvoice']),
   },
-  // prod.amount = prod.amount - 1
-  // console.log(prod.amount)
-  // edit product amount axios call
-  // create invoice axios call
-  // add to orders product, user and invoice
 }
 </script>
 <template lang="pug">
-.card-container
-  .row
-    .col-7
-      h3 Invoice for your "{{ invoice.productName }}" rent
-        h5 Amount paid per day : {{ invoice.productPrice }}
-        h5 Invoice address : {{ invoice.user.email }}
-    //-   h5 Product Price: {{ product.price }} €
-    //-   h5 Gear Type: {{ product.gear }}
-    //-   h5 Fuel Type: {{ product.fuel }}
-    //-   h5 Pick-up Point: {{ product.pickUpPoint }}
-    //-   h5 Seats: {{ product.seat}}
-     
-//- .box
-//-     h2 {{product.name}} {{product.price}}
-//-     button(@click="rent(product)") RENT
-   
+.card
+  .card-body.mx-4
+    .container
+      p.my-5.mx-5(style='font-size: 30px;') Thank for your purchase
+      .row
+        ul.list-unstyled
+          li.text-black To : {{invoice.user.name}}
+          li.text-muted.mt-1
+            span.text-black Invoice-ID : 
+            |  {{invoice._id}}
+          //- li.text-black.mt-1 September 17 2022  ======= EXPECTING A DATE
+        hr
+        .col-xl-10
+          p {{invoice.productName}}
+        .col-xl-2
+          p.float-end
+            | €{{ invoice.productPrice }}
+        hr
+      .row
+        .col-xl-10
+          p Taxes(%10)
+        .col-xl-2
+          p.float-end
+            | €{{invoice.productPrice / 10}}
+        hr
+      .row
+        .col-xl-10
+          p Service Fees(%5)
+        .col-xl-2
+          p.float-end
+            | €{{invoice.productPrice / 20}}
+        hr(style='border: 2px solid black;')
+      .row.text-black
+        .col-xl-12
+          p.float-end.fw-bold
+            | Total: €{{invoice.productPrice + invoice.productPrice/10 + invoice.productPrice/20}}
+        hr(style='border: 2px solid black;')        
+        
 </template>
 
 <style lang="scss" scoped>
-// .box {
-//   padding: 2rem;
-//   border: 1px solid black;
-//   border-radius: 0.3rem;
-// }
+
 .card-container {
   border: 1px solid #d0d0d0;
   padding: 12px;

@@ -44,7 +44,6 @@ export default {
         h5 Gear Type: {{ product.gear }}
         h5 Fuel Type: {{ product.fuel }}
         h5 Pick-up Point: {{ product.pickUpPoint }}
-        h5 Seats: {{ product.seat}}
         button.btn.btn-primary(v-if=(this.user) @click="rent(product)") Rent
   .row.reviews Reviews
     .col
@@ -63,6 +62,7 @@ export default {
   margin-bottom: 24px;
   border-radius: 8px;
   text-align: center;
+  background-color: #dfe8f1
 }
 .reviews{
   display: block;
