@@ -5,9 +5,7 @@ import Login from '../views/login.vue'
 import Register from '../views/register.vue'
 import AddProduct from '../views/add-product.vue'
 import CompanyProducts from '../views/company-products.vue'
-// import ShowProducts from '../components/all-products'
-// import EditProduct from '../views/edit-product.vue'
-// import HomePage from '../views/home-page.vue'
+
 
 Vue.use(VueRouter)
 
@@ -21,14 +19,7 @@ export default function init(store) {
         name: 'Homepage',
         component: Homepage,
       },
-      {
-        path: '/users/:id',
-        name: 'UserDetail',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/user-detail.vue'),
-      },
+  
       {
         path: '/order',
         name: 'UserOrders',
@@ -52,11 +43,7 @@ export default function init(store) {
           return next()
         },
       },
-      // {
-      //   path: '/all-products',
-      //   name: 'showProducts',
-      //   component: ShowProducts,
-      // },
+   
       {
         path: '/edit-products/:id',
         name: 'EditProduct',
@@ -86,7 +73,7 @@ export default function init(store) {
         name: 'login',
         component: Login,
         beforeEnter(to, from, next) {
-          if (store.state.user) return next('/homepage')
+          if (store.state.user) return next('/')
           return next()
         },
       },
