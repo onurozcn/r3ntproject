@@ -11,7 +11,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'products']),
   },
 }
 </script>
@@ -27,27 +27,26 @@ export default {
           #navbarNav.collapse.navbar-collapse
             ul.navbar-nav.justify-content-end
               li.nav-item
-                router-link.nav-link(v-if="this.user" to="/homepage") Home Page
+                router-link.nav-link(v-if="user && !user.isCompany" to="/order") Orders&Invoices
               li.nav-item
-                router-link.nav-link(v-if="this.user" to="/order") Orders&Invoices
+                router-link.nav-link(v-if="!user" to="/login") Login
               li.nav-item
-                router-link.nav-link(v-if="!this.user" to="/login") Login
-              li.nav-item
-                router-link.nav-link(v-if="!this.user" to="/register") Register
+                router-link.nav-link(v-if="!user" to="/register") Register
               li.nav-item
                 router-link.nav-link(v-if="user && user.isCompany" to="/company-products") Products
               li.nav-item
-                router-link.nav-link(v-if="this.user && this.user.isCompany" to="/add-product") Add Product
+                router-link.nav-link(v-if="user && user.isCompany" to="/add-product") Add Product
               li.nav-item
                 a.nav-link(v-if="user" @click="doLogout" href="#") Logout
-                
-    ul#footer.nav.fixed-bottom.justify-content-center
-      li.nav-item
-        a.nav-link(aria-current='page', href='#') Privacy Policy
-      li.nav-item
-        a.nav-link(href='#') About Us
-      li.nav-item
-        a.nav-link(href='#') Terms of Use
+    
+
+    //- ul#footer.nav.fixed-bottom.justify-content-center
+    //-   li.nav-item
+    //-     a.nav-link(aria-current='page', href='#') Privacy Policy
+    //-   li.nav-item
+    //-     a.nav-link(href='#') About Us
+    //-   li.nav-item
+    //-     a.nav-link(href='#') Terms of Use
     router-view
   
  </template>
@@ -57,22 +56,27 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #01070d;
+  background-color: #e6eaee;
 }
 
 #nav {
   padding: 3px;
+   background-color: #eff3f6;
   a {
     font-weight: bold;
     color: #2c3e50;
     margin: 0 1rem;
+    
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: blue;
     }
   }
 }
 #footer {
-  background: white;
+  background-color: #eff3f6;
+  
+
 }
 </style>
