@@ -73,13 +73,15 @@ const store = new Vuex.Store({
       await axios.get(`/api/reviews`)
     },
     async addReview(store, product, user, review) {
-      axios.post('/api/reviews', product, user, review)
+      const updated = axios.post('/api/reviews', product, user, review)
+      return updated
     },
     async deleteAllReviews() {
       await axios.delete('/api/reviews')
     },
     async deleteReview(store, id) {
-      await axios.delete(`/api/reviews/${id}`)
+      const updated = await axios.delete(`/api/reviews/${id}`)
+      return updated.data
     },
     // PRODUCT
    
