@@ -10,17 +10,18 @@ export default {
       product: null,
     }
   },
-  async created() {
+  async beforeMount() {
     this.product = await this.fetchProduct(this.$route.params.id)
   },
   methods: {
     ...mapActions(['fetchProduct']),
+   
   },
 }
 </script>
 
 <template lang="pug">
   .about
-    ProductCard(:product="product" v-if="product")
+    ProductCard(:product="product" v-if="product" )
     
 </template>
