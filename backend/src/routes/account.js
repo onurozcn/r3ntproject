@@ -7,11 +7,12 @@ const nodemailer = require('nodemailer')
 const sendgridTransport = require('nodemailer-sendgrid-transport')
 
 const User = require('../models/user')
+const key = require('../config')
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: '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',
+      api_key: key.API_KEY,
     },
   })
 )
@@ -28,12 +29,11 @@ router.post('/', async (req, res, next) => {
     res.send(user)
     transporter.sendMail({
       to: email,
-      from: 'onurozcn182@gmail.com',
+      from: key.postMail,
       subject: 'Sign-up succeeded to R3ntals',
       html: `<h1> Thank you ${name}, you are successfully registered</h1>`,
     })
   } catch (e) {
-    // res.send(user)
     next(e)
   }
 })
