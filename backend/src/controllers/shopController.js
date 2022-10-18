@@ -85,7 +85,8 @@ exports.deleteAllReviews = async (req, res, next) => {
 exports.deleteAReview = async (req, res, next) => {
   try {
     await Review.findByIdAndDelete(req.params.rev_id)
-    res.sendStatus(200)
+    const prods = await Product.find()
+    res.send(prods)
   } catch (e) {
     next(e)
   }
