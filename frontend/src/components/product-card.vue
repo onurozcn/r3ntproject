@@ -1,22 +1,19 @@
 <script>
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'ProductCard',
   props: ['product'],
-  // data(){
-  //   return{
-  //   reviews: [],
-  //   }
-  // },
+ 
   computed: {
     ...mapState(['user'])
   },
   methods: {
-    ...mapActions(['createInvoice']),
+    ...mapActions(['createInvoice','deleteReview']),
     async rent(prod) {
       if(!this.user){
         alert("You need to Log-In to rent this car!")
-        location.assign("http://r3ntproject.localhost/login")
+        this.$router.push('/login')
       }
       try {
         await this.createInvoice({
@@ -28,7 +25,13 @@ export default {
       } catch (e) {
         this.backendError = e.response.data.message
       }
-    },   
+    }, 
+    async deleteRev(rev) {
+      this. product.revs = this.product.revs.filter(review => review._id !== rev._id)
+      await this.deleteReview(rev._id)
+      alert("Your review has been deleted")
+    },
+    
   },
 }
 </script>
@@ -44,12 +47,13 @@ export default {
         h5 Gear Type: {{ product.gear }}
         h5 Fuel Type: {{ product.fuel }}
         h5 Pick-up Point: {{ product.pickUpPoint }}
-        button.btn.btn-primary(v-if=(this.user) @click="rent(product)") Rent
+        button.btn.btn-primary(v-if="!user.isCompany" @click="rent(product)") Rent
   .row.reviews Reviews
     .col
-      #product-reviews(v-for="reviews in product.revs")
-        h6 User name :  {{reviews.user.name}}
-        h6 Review : {{reviews.review}}
+      #product-reviews(v-for="review in product.revs")
+        h6 User name :  {{review.user.name}}
+        h6 Review : {{review.review}}
+        button.btn.btn-primary(v-if="review.user.email === user.email" @click="deleteRev(review)")  Delete review
    
 </template>
 
