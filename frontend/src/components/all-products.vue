@@ -11,12 +11,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['createInvoice', 'filterProducts', 'setFilteredProducts']),
+    ...mapActions(['createInvoice', 'filterProducts']),
     ...mapMutations(['setFilteredProducts']),
     async rent(prod) {
       if (!this.user) {
         alert('You need to Log-In to rent this car!')
-        location.assign('http://r3ntproject.localhost/login')
+        this.$router.push('/login')
       }
       try {
         await this.createInvoice({
@@ -79,26 +79,10 @@ export default {
               h6.card-text Price : {{ pr.price }} € 
               h6.card-text Gear  : {{ pr.gear }} 
               h6.card-text Fuel  : {{ pr.fuel }} 
-              button.btn.btn-primary(@click="rent(pr)") Rent Now
+              button.btn.btn-primary(v-if="!user.isCompany" @click="rent(pr)") Rent Now
 </template>
 <style scoped>
 .card {
   background-color: #dfe8f1;
-}
-.pagination {
-  margin-top: 2rem;
-  text-align: center;
-}
-.pagination a {
-  text-decoration: none;
-  color: blue;
-  padding: 0.5rem;
-  border: 1px solid #00695c;
-  margin: 0 1rem;
-}
-.pagination a:hover,
-.pagination a:active {
-  background: #00695c;
-  color: white;
 }
 </style>
