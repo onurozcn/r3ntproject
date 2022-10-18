@@ -6,10 +6,12 @@ const Order = require('../models/order')
 const Invoice = require('../models/invoice')
 const Product = require('../models/product')
 
+const key = require('../config')
+
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: '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',
+      api_key: key.API_KEY,
     },
   })
 )
@@ -49,26 +51,23 @@ exports.updateUserById = async (req, res, next) => {
   }
 }
 
-exports.createUser = async (req, res, next) => {
+exports.createUser = async (req, res) => {
   const { name, email, isCompany } = req.body
-  try {
-    if (!email || !name || !isCompany) {
-      res
-        .send({
-          message: 'Missing fields.',
-        })
-        .status(400)
-      return
-    }
-    const user = await User.create({
-      name,
-      email,
-      isCompany,
-    })
-    res.send(user)
-  } catch (e) {
-    next(e)
+
+  if (!email || !name || !isCompany) {
+    res
+      .send({
+        message: 'Missing fields.',
+      })
+      .status(400)
+    return
   }
+  const user = await User.create({
+    name,
+    email,
+    isCompany,
+  })
+  res.send(user)
 }
 
 exports.deleteUserById = async (req, res, next) => {
@@ -213,12 +212,13 @@ exports.createInvoice = async (req, res, next) => {
       invoice,
       user,
     })
+    const usr = await User.findById(user)
     res.send(invoice)
     transporter.sendMail({
-      to: user.email,
-      from: 'onurozcn182@gmail.com',
-      subject: 'Sign-up succeeded to R3ntals',
-      html: `<h1> Dear ${user.name}, we have recieved your payment. Your order has created. You can find your invoice on "Orders&Invoices" section</h1>`,
+      to: usr.email,
+      from: key.postMail,
+      subject: 'Rent operation successfull!',
+      html: `<h1> Dear ${usr.name}, we have recieved your payment. Your order has created. You can find your invoice on "Orders&Invoices" section</h1>`,
     })
   } catch (e) {
     next(e)
