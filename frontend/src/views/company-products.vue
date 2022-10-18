@@ -27,16 +27,14 @@ export default {
 </script>
 
 <template lang="pug">
-  .container.all
     .row.prodLayout
-      .col-9.container.card-container(v-for="product in companyProducts")
+      .col-9.card-container(v-for="product in companyProducts")
         .row
           .col-6 
             img(:src='`${product.photo}`' width='100%' height='100%')
           .col-6
             h3 {{ product.name }}
-            h5 Product Price: 
-              p {{ product.price }} €
+            h5 Product Price: {{ product.price }} € 
             button.btn
              router-link(:to="`/edit-products/${product._id}`") Edit Product
             button.btn.btn-primary(@click='deleteProd(product._id)') Delete Product
