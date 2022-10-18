@@ -39,19 +39,19 @@ export default {
           p Taxes(%10)
         .col-xl-2
           p.float-end
-            | €{{invoice.productPrice / 10}}
+            | €{{Math.floor(invoice.productPrice / 10)}}
         hr
       .row
         .col-xl-10
           p Service Fees(%5)
         .col-xl-2
           p.float-end
-            | €{{invoice.productPrice / 20}}
+            | €{{Math.floor(invoice.productPrice / 20)}}
         hr(style='border: 2px solid black;')
       .row.text-black
         .col-xl-12
           p.float-end.fw-bold
-            | Total: €{{invoice.productPrice + invoice.productPrice/10 + invoice.productPrice/20}}
+            | Total: €{{invoice.productPrice + Math.floor(invoice.productPrice/10) + Math.floor(invoice.productPrice/20)}}
         hr(style='border: 2px solid black;')        
         
 </template>
