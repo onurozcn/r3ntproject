@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   isCompany: {
     type: Boolean,
+    default: false,
   },
 })
 
