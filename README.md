@@ -6,7 +6,7 @@ Project is created for learning different technologies.
 To build this JavaScript technologies have been used. In backend it has Node.js, Express.js and MongoDB, Mongoose. In frontend it uses Vue.js. 
 Project also deployed to the Google Cloud.
 
-You can see the [project here](https://frontend-m75thsncmq-ew.a.run.app/)
+You can see this [project live here](https://frontend-m75thsncmq-ew.a.run.app/)
 
 ###### Installation
 Fork the repository.
@@ -40,9 +40,7 @@ Add the following line to your hosts file
 - Payment functionality
 - Uploading photo function in add/edit
 - Uploading products in bulk (XML, TXT)
-- User and company authentiacation
 - Encrytion
-- Sending e-mail after rent approval
 - Sorting products accordingly to filter options
 - Showing available rental pick-up points in map
 
