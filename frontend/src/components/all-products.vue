@@ -79,7 +79,7 @@ export default {
               h6.card-text Price : {{ pr.price }} € 
               h6.card-text Gear  : {{ pr.gear }} 
               h6.card-text Fuel  : {{ pr.fuel }} 
-              button.btn.btn-primary(v-if="!user.isCompany" @click="rent(pr)") Rent Now
+              button.btn.btn-primary(v-show="user && !user.isCompany" @click="rent(pr)") Rent Now
 </template>
 <style scoped>
 .card {
