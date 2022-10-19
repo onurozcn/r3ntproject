@@ -23,9 +23,8 @@ export default {
         })
 
         this.$router.push('/')
-        // location.reload()
       } catch (e) {
-        this.backendError = e.response.data.message
+        this.backendError = e.response.data
       }
     },
   },
@@ -51,7 +50,8 @@ export default {
               button.btn.btn-primary.btn-login.text-uppercase.fw-bold(type='submit')
                 | Sign
                 | in
-          div(v-if="backendError") {{ backendError }}
+          
+          div.m-2.error-message(v-show="backendError") Wrong Credentials!! Check your password and e-mail!
           div Don't have an account yet? <router-link to="/register">Register</router-link>
 
 </template>
@@ -61,5 +61,9 @@ export default {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;
   padding: 0.75rem 1rem;
+}
+.error-message{
+  border: solid 1px red;
+  text-align: center;
 }
 </style>
