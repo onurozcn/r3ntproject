@@ -47,7 +47,7 @@ export default {
         h5 Gear Type: {{ product.gear }}
         h5 Fuel Type: {{ product.fuel }}
         h5 Pick-up Point: {{ product.pickUpPoint }}
-        button.btn.btn-primary(v-if="!user.isCompany" @click="rent(product)") Rent
+        button.btn.btn-primary(v-show="user && !user.isCompany" @click="rent(product)") Rent
   .row.reviews Reviews
     .col
       h5(v-show="!product.revs.length") No reviews yet!
