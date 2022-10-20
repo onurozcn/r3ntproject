@@ -50,6 +50,7 @@ export default {
         button.btn.btn-primary(v-if="!user.isCompany" @click="rent(product)") Rent
   .row.reviews Reviews
     .col
+      h5(v-show="!product.revs.length") No reviews yet!
       #product-reviews(v-for="review in product.revs")
         h6 User name :  {{review.user.name}}
         h6 Review : {{review.review}}
