@@ -2,8 +2,12 @@ const express = require('express')
 
 const router = express.Router()
 
-const shopsController = require('../controllers/shopController')
-
-router.get('/', shopsController.getHomePage)
+router.get('/', (req, res, next) => {
+  try {
+    res.render('index', { title: 'RENTAL PROJECT' })
+  } catch (e) {
+    next(e)
+  }
+})
 
 module.exports = router
