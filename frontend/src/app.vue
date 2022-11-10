@@ -58,6 +58,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #01070d;
   background-color: #e6eaee;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 #nav {
