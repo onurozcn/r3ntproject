@@ -42,7 +42,7 @@ router.patch('/:id', async (req, res, next) => {
 router.post('/', async (req, res) => {
   const { name, email, isCompany } = req.body
 
-  if (!email || !name || !isCompany) {
+  if (!email || !name) {
     res
       .send({
         message: 'Missing fields.',
