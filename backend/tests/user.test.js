@@ -1,18 +1,19 @@
 const request = require('supertest')
 const app = require('../src/app')
 
-describe('User endpoint', () => {
-  it('post request to /users should create a user', async () => {
+describe('Users endpoints', () => {
+  it('create a user', async () => {
+    await request(app).delete(`/api/users/deleteAllUsers`)
     const userToCreate = {
-      name: 'Somename' + Date.now(),
-      age: 27,
-      email: 'Bsdadasd, done that' + Date.now(),
+      name: 'onur',
+      email: `onurozcn${Date.now()}@ozcn.com`,
     }
-    console.log('userToCreate')
-    const createdUser = (await request(app).post('/api/users').send(userToCreate)).body
 
-    expect(createdUser.name).toBe(userToCreate.name)
-    expect(createdUser.age).toBe(userToCreate.age)
-    expect(createdUser.email).toBe(userToCreate.email.toLowerCase())
+    const userResponse = await request(app).post('/api/users').send(userToCreate).expect(200)
+    const createdUser = userResponse.body
+
+    expect(createdUser).toMatchObject(userToCreate)
+
+    await request(app).delete(`/api/users/deleteUserById/${createdUser._id}`)
   })
 })
