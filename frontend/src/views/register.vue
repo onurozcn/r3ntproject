@@ -10,7 +10,6 @@ export default {
       email: '',
       password: '',
       isCompany: false,
-
       backendError: null,
     }
   },
