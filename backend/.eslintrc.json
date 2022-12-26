@@ -8,15 +8,21 @@
     "prettier/react",
     "prettier/standard",
     "prettier/unicorn",
-    "prettier/vue"
+    "prettier/vue",
+    "eslint:recommended",
+    "plugin:jest/recommended"
   ],
   "rules": {
     "eqeqeq": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "react": {
       "version": "latest"
     }
+  },
+  "env": {
+    "jest/globals": true
   }
 }
