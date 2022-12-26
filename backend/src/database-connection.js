@@ -1,13 +1,7 @@
 const mongoose = require('mongoose')
+const { db } = require('./config')
 
-const username = process.env.MONGODB_USERNAME
-const password = process.env.MONGODB_PASSWORD
-const dbName = process.env.MONGODB_DATABASE
-let connectionString = process.env.MONGODB_CONNECTION_STRING
-if (!connectionString) {
-  console.log(connectionString)
-  connectionString = `mongodb+srv://${username}:${password}@cluster0.qnpah.mongodb.net/${dbName}?retryWrites=true&w=majority`
-}
+const connectionString = db.cs
 
 mongoose.set('debug', true)
 
