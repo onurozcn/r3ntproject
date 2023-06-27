@@ -1,12 +1,11 @@
 ###### R3ntals (Rent A Car Project)
-You can register as a user or a company and login.
-As a company you can add a product, delete it, or edit your products.
-As a user, you can see products, product details page, rent it, you can see your previous orders, can leave a comment to your previous order, and see your invoice.
-Project is created for learning different technologies. 
-To build this JavaScript technologies have been used. In backend it has Node.js, Express.js and MongoDB, Mongoose. In frontend it uses Vue.js. 
-Project also deployed to the Google Cloud.
-
-You can see this [project live here](https://frontend-m75thsncmq-ew.a.run.app/)
+This project is built to demonstrate the skills that I have earned during the Full-Stack Software Engineering bootcamp.
+Aim is to bring small rent a car businesses to serve their inventories online. 
+Application lets you register as a user or a company.
+You can make CRUD operations.
+Dummy rental operation followed by order and invoice creation.
+Sends e-mail after registraion or rent operation.
+Containerized with Docker and ~~deployed to Google Cloud~~(not anymore)
 
 ###### Installation
 Fork the repository.
@@ -35,14 +34,6 @@ Add the following line to your hosts file
 
 127.0.0.1 r3ntproject.localhost
 
-###### TO DOs 
-
-- Payment functionality
-- Uploading photo function in add/edit
-- Uploading products in bulk (XML, TXT)
-- Encrytion
-- Sorting products accordingly to filter options
-- Showing available rental pick-up points in map
 
 ###### LICENSE
 MIT LICENSE
